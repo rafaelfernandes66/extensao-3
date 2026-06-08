@@ -5,7 +5,6 @@
 
 {% block content %}
 <style>
-    /* Estilos modernos mantendo a estrutura original */
     :root {
         --primary: #0d6efd;
         --primary-dark: #0b5ed7;
@@ -16,11 +15,14 @@
         --transition: all 0.25s ease;
     }
 
+    /* ── HERO ── */
     .bg-title {
         background: linear-gradient(135deg, #0a192f 0%, #0f2b3d 100%);
-        min-height: 85vh;
+        min-height: 90vh;
         position: relative;
         overflow: hidden;
+        display: flex;
+        align-items: center;
     }
 
     .bg-title::before {
@@ -28,20 +30,122 @@
         position: absolute;
         width: 150%;
         height: 150%;
-        background: radial-gradient(circle at 20% 40%, rgba(255,106,0,0.12), transparent 70%);
+        background: radial-gradient(circle at 20% 40%, rgba(255,106,0,0.14), transparent 70%);
         top: -20%;
         left: -20%;
         pointer-events: none;
     }
 
-    .bg-orange {
-        background: linear-gradient(90deg, var(--secondary), #ff8c3a);
-        height: 4px;
-        width: 120px;
-        border-radius: 4px;
-        margin: 1rem auto;
+    .hero-badge {
+        background: rgba(255,106,0,0.18);
+        color: #ffb07c;
+        font-weight: 600;
+        padding: 6px 18px;
+        border-radius: 40px;
+        font-size: 0.85rem;
+        display: inline-block;
+        border: 1px solid rgba(255,106,0,0.3);
+        letter-spacing: 0.3px;
     }
 
+    .hero-title {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 800;
+        line-height: 1.15;
+        letter-spacing: -0.5px;
+    }
+
+    .hero-divider {
+        background: linear-gradient(90deg, var(--secondary), #ff8c3a);
+        height: 4px;
+        width: 80px;
+        border-radius: 4px;
+        margin: 1.2rem auto;
+    }
+
+    .hero-sub {
+        font-size: 1.1rem;
+        color: rgba(255,255,255,0.55);
+        max-width: 480px;
+        margin: 0 auto;
+    }
+
+    .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+
+    .hero-stat {
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 14px;
+        padding: 14px 24px;
+        text-align: center;
+        backdrop-filter: blur(4px);
+    }
+
+    .hero-stat strong {
+        display: block;
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--secondary);
+        line-height: 1;
+    }
+
+    .hero-stat span {
+        font-size: 0.78rem;
+        color: rgba(255,255,255,0.5);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* ── SOBRE ── */
+    .sobre-section {
+        background: #fff;
+        padding: 80px 0;
+    }
+
+    .sobre-card {
+        background: var(--light-bg);
+        border-radius: 20px;
+        padding: 28px;
+        height: 100%;
+        border: 1px solid rgba(0,0,0,0.04);
+        transition: var(--transition);
+    }
+
+    .sobre-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--card-shadow);
+    }
+
+    .sobre-icon {
+        width: 52px;
+        height: 52px;
+        background: rgba(255,106,0,0.1);
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.4rem;
+        color: var(--secondary);
+        margin-bottom: 14px;
+        flex-shrink: 0;
+    }
+
+    .section-eyebrow {
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--secondary);
+        margin-bottom: 8px;
+    }
+
+    /* ── BOTÕES ── */
     .btn-expand {
         transition: var(--transition);
         border-radius: 40px !important;
@@ -51,31 +155,49 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
+        gap: 8px;
         box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
 
     .btn-expand:hover {
         transform: translateY(-3px);
-        box-shadow: 0 12px 20px -12px rgba(0,0,0,0.2);
-        filter: brightness(1.02);
+        box-shadow: 0 12px 20px -12px rgba(0,0,0,0.25);
+        filter: brightness(1.04);
     }
 
-    .btn-secondary {
+    .btn-outline-hero {
+        background: transparent;
+        border: 1.5px solid rgba(255,255,255,0.3) !important;
+        color: #fff;
+        border-radius: 40px !important;
+        padding: 12px 28px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: var(--transition);
+        text-decoration: none;
+    }
+
+    .btn-outline-hero:hover {
+        background: rgba(255,255,255,0.1);
+        color: #fff;
+        transform: translateY(-2px);
+    }
+
+    .btn-secondary-custom {
         background: var(--secondary);
-    }
-    
-    .btn-secondary:hover {
-        background: var(--secondary-dark);
+        color: #fff;
     }
 
-    .polygon-curso {
-        background: linear-gradient(120deg, var(--secondary) 0%, #ff884d 100%);
-        background-clip: text;
-        -webkit-background-clip: text;
-        color: transparent;
-        font-weight: 800;
+    .btn-secondary-custom:hover {
+        background: var(--secondary-dark);
+        color: #fff;
     }
+
+    /* ── OBJETIVO ── */
+    .bg-light-custom { background-color: var(--light-bg); }
 
     .shadow-sm-custom {
         box-shadow: var(--card-shadow);
@@ -86,15 +208,86 @@
 
     .shadow-sm-custom:hover {
         transform: translateY(-4px);
-        box-shadow: 0 25px 40px -14px rgba(0, 0, 0, 0.12);
+        box-shadow: 0 25px 40px -14px rgba(0,0,0,0.12);
     }
 
+    /* ── NOTICIAS ── */
+    .noticias-section {
+        background: #fff;
+        padding: 80px 0;
+    }
+
+    .noticia-card {
+        border-radius: 18px;
+        overflow: hidden;
+        border: 1px solid rgba(0,0,0,0.06);
+        background: #fff;
+        transition: var(--transition);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .noticia-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 28px 40px -18px rgba(0,0,0,0.15);
+    }
+
+    .noticia-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .noticia-card .noticia-img-placeholder {
+        width: 100%;
+        height: 200px;
+        background: linear-gradient(135deg, #0a192f, #0f2b3d);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        color: rgba(255,255,255,0.2);
+    }
+
+    .noticia-body {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .noticia-data {
+        font-size: 0.75rem;
+        color: var(--secondary);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+    }
+
+    .noticia-titulo {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #0a192f;
+        line-height: 1.4;
+        margin-bottom: 8px;
+    }
+
+    .noticia-resumo {
+        font-size: 0.875rem;
+        color: #6c757d;
+        flex: 1;
+        line-height: 1.6;
+    }
+
+    /* ── CARDS ATUAÇÃO ── */
     .card-modern {
         border-radius: 1.25rem;
         overflow: hidden;
         transition: var(--transition);
         background: white;
-        border: 1px solid rgba(0,0,0,0.03);
+        border: 1px solid rgba(0,0,0,0.04);
         height: 100%;
     }
 
@@ -103,6 +296,7 @@
         box-shadow: 0 30px 40px -20px rgba(0,0,0,0.2);
     }
 
+    /* ── LISTAS ── */
     .links-list-orange li {
         font-weight: 500;
         margin-bottom: 0.75rem;
@@ -119,157 +313,297 @@
         margin-right: 12px;
     }
 
+    /* ── VÍDEO ── */
     .video-wrapper {
         position: relative;
         padding-bottom: 56.25%;
         height: 0;
         overflow: hidden;
-        border-radius: 28px;
+        border-radius: 24px;
         background: #000;
         box-shadow: 0 20px 35px -10px rgba(0,0,0,0.2);
     }
 
     .video-wrapper iframe {
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
         border: 0;
-        border-radius: 28px;
     }
 
-    .bg-light-custom {
-        background-color: var(--light-bg);
+    .polygon-curso {
+        background: linear-gradient(120deg, var(--secondary) 0%, #ff884d 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        font-weight: 800;
     }
 
-    .badge-modern {
-        background: rgba(255,106,0,0.12);
-        color: var(--secondary-dark);
-        font-weight: 600;
-        padding: 6px 14px;
-        border-radius: 40px;
-        font-size: 0.8rem;
-        display: inline-block;
+    /* ── RESPONSIVIDADE ── */
+    @media (max-width: 991px) {
+        .bg-title { min-height: 75vh; }
+        .hero-stats-row { gap: 10px; }
+        .hero-stat { padding: 10px 16px; }
+        .hero-stat strong { font-size: 1.3rem; }
     }
 
-    @media (max-width: 768px) {
-        .bg-title {
-            min-height: 70vh;
-        }
+    @media (max-width: 767px) {
+        .bg-title { min-height: auto; padding: 80px 0 60px; }
+        .hero-title { font-size: 1.9rem; }
+        .hero-actions { flex-direction: column; align-items: center; }
+        .hero-actions a, .hero-actions button { width: 100%; max-width: 320px; justify-content: center; }
+        .hero-stats-row { justify-content: center; }
+        .sobre-section { padding: 50px 0; }
+        .noticias-section { padding: 50px 0; }
+        .noticia-card img, .noticia-card .noticia-img-placeholder { height: 160px; }
+    }
+
+    @media (max-width: 480px) {
+        .hero-title { font-size: 1.6rem; }
+        .hero-stats-row { flex-direction: column; align-items: center; }
+        .hero-stat { width: 100%; max-width: 260px; }
     }
 </style>
 
 <main>
-    <!-- Hero Section -->
-    <section class="row d-flex justify-content-center align-items-center text-center bg-title m-0">
-        <div class="col-12 col-md-10 col-lg-8 d-flex flex-column justify-content-center align-items-center">
-            <span class="badge-modern mb-3">🎓 Tecnólogo Presencial</span>
-            <h1 class="fw-bold display-4 text-white">ANÁLISE E DESENVOLVIMENTO DE SISTEMAS</h1>
 
-            <div class="bg-orange my-3"></div>
+    <!-- ═══════════════════════════════════════
+         HERO / BANNER PRINCIPAL — Pessoa 1
+    ════════════════════════════════════════ -->
+    <section class="bg-title">
+        <div class="container position-relative" style="z-index:1;">
+            <div class="row justify-content-center text-center">
+                <div class="col-12 col-md-10 col-lg-8">
 
-            <div class="mb-3">
-                <p class="fs-5 text-white-50"><i class="bi bi-moon-stars me-2"></i>Tecnólogo - Noturno - 5 semestres</p>
-            </div>
+                    <span class="hero-badge mb-3 d-inline-block">🎓 Tecnólogo Presencial · UniFIP</span>
 
-            <a href="https://unifip.com.br/cursos/analise-e-desenvolvimento-de-sistemas/" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">
-                <button class="btn btn-expand btn-secondary text-white px-5 py-3 my-3 gap-2">
-                    <i class="bi bi-box-arrow-up-right"></i>Acesse aqui
-                </button>
-            </a>
-        </div>
-    </section>
+                    <h1 class="hero-title text-white mt-3 mb-0">
+                        Análise e Desenvolvimento<br>de Sistemas
+                    </h1>
 
-    <!-- Objetivo Section -->
-    <section class="row d-flex justify-content-center align-items-center bg-light-custom m-0 py-5">
-        <div class="col-12 col-md-11 col-lg-9 d-flex flex-column justify-content-center align-items-center">
-            <h1 class="fw-bold fs-1 text-primary my-4 py-4">Objetivo
-                <span class="polygon-curso">Curso</span>
-            </h1>
+                    <div class="hero-divider"></div>
 
-            <p class="fs-5 d-flex text-center text-md-start">O curso de Análise e Desenvolvimento de Sistemas tem como objetivo formar profissionais capazes de
-                analisar, projetar, desenvolver, implementar e manter sistemas de informação, com conhecimentos de
-                programação, banco de dados, redes, engenharia de software, sistemas operacionais, entre outros.</p>
+                    <p class="hero-sub mb-4">
+                        <i class="bi bi-moon-stars me-2"></i>Curso noturno · 5 semestres · Patos, PB
+                    </p>
 
-            <!-- LINK DJANGO ATIVO: matriz_curricular -->
-            <a href="{% url 'matriz_curricular' %}" style="text-decoration:none;">
-                <button class="btn btn-expand btn-secondary text-white px-5 py-3 my-3 gap-2">
-                    <i class="bi bi-filetype-pdf"></i>Matriz Curricular
-                </button>
-            </a>
+                    <div class="hero-actions">
+                        <a href="https://unifip.com.br/cursos/analise-e-desenvolvimento-de-sistemas/"
+                           target="_blank" rel="noopener noreferrer" style="text-decoration:none;">
+                            <button class="btn btn-expand btn-secondary-custom text-white px-5 py-3">
+                                <i class="bi bi-box-arrow-up-right"></i>Acesse o curso
+                            </button>
+                        </a>
+                        <a href="{% url 'matriz_curricular' %}" class="btn-outline-hero">
+                            <i class="bi bi-filetype-pdf"></i>Matriz Curricular
+                        </a>
+                    </div>
 
-            <div class="container mt-4 mb-2">
-                <div class="row justify-content-center g-4">
-                    <div class="col-12 col-md-6 col-lg-5">
-                        <div class="p-4 shadow-sm-custom h-100">
-                            <ul class="list-unstyled d-flex flex-column gap-3 mb-0">
-                                <li class="d-flex gap-2 align-items-center">
-                                    <i class="bi bi-currency-dollar text-secondary fs-4"></i>
-                                    <span><strong>Matrícula:</strong> R$ 721,00</span>
-                                </li>
-                                <li class="d-flex gap-2 align-items-center">
-                                    <i class="bi bi-currency-dollar text-secondary fs-4"></i>
-                                    <span><strong>Mensalidade:</strong> R$ 703,00</span>
-                                </li>
-                                <li class="d-flex gap-2 align-items-center">
-                                    <i class="bi bi-clock-fill text-secondary fs-4"></i>
-                                    <span><strong>Turno:</strong> Noturno</span>
-                                </li>
-                                <li class="d-flex gap-2 align-items-center">
-                                    <i class="bi bi-mortarboard-fill text-secondary fs-4"></i>
-                                    <span><strong>Duração:</strong> 2 anos e meio</span>
-                                </li>
-                            </ul>
+                    <!-- Stats rápidos -->
+                    <div class="d-flex flex-wrap gap-3 justify-content-center mt-5 hero-stats-row">
+                        <div class="hero-stat">
+                            <strong>5</strong>
+                            <span>Semestres</span>
+                        </div>
+                        <div class="hero-stat">
+                            <strong>2,5</strong>
+                            <span>Anos</span>
+                        </div>
+                        <div class="hero-stat">
+                            <strong>Noturno</strong>
+                            <span>Turno</span>
+                        </div>
+                        <div class="hero-stat">
+                            <strong>Patos</strong>
+                            <span>Cidade</span>
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-6 col-lg-5">
-                        <div class="p-4 shadow-sm-custom h-100">
-                            <ul class="list-unstyled d-flex flex-column gap-3 mb-0">
-                                <li class="d-flex gap-2 align-items-center">
-                                    <i class="bi bi-geo-alt-fill text-secondary fs-4"></i>
-                                    <span><strong>Local:</strong> Patos, Paraíba, Brasil</span>
-                                </li>
-                                <li class="d-flex gap-2 align-items-center">
-                                    <i class="bi bi-person-fill text-secondary fs-4"></i>
-                                    <span><strong>Coordenador:</strong> Sormany Silva Dantas</span>
-                                </li>
-                                <li class="d-flex gap-2 align-items-center">
-                                    <i class="bi bi-envelope-fill text-secondary fs-4"></i>
-                                    <span><strong>Email:</strong> coordenacao@ads.fiponline.edu.br</span>
-                                </li>
-                                <li class="d-flex gap-2 align-items-center">
-                                    <i class="bi bi-phone-fill text-secondary fs-4"></i>
-                                    <span><strong>Contato:</strong> (83) 3421-4047</span>
-                                </li>
-                            </ul>
-                        </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         SOBRE O CURSO — Pessoa 1
+    ════════════════════════════════════════ -->
+    <section class="sobre-section">
+        <div class="container">
+            <div class="row justify-content-center text-center mb-5">
+                <div class="col-lg-7">
+                    <p class="section-eyebrow">Conheça o curso</p>
+                    <h2 class="fw-bold fs-1 text-primary mb-3">
+                        Sobre o <span class="polygon-curso">ADS</span>
+                    </h2>
+                    <p class="text-secondary fs-5">
+                        Forme-se em 2 anos e meio para projetar, desenvolver e manter sistemas de informação
+                        modernos — do backend ao mobile.
+                    </p>
+                </div>
+            </div>
+
+            <div class="row g-4 justify-content-center">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="sobre-card">
+                        <div class="sobre-icon"><i class="bi bi-code-slash"></i></div>
+                        <h5 class="fw-bold mb-2">Desenvolvimento</h5>
+                        <p class="text-secondary small mb-0">
+                            Programação estruturada, orientada a objetos, web e mobile.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="sobre-card">
+                        <div class="sobre-icon"><i class="bi bi-database"></i></div>
+                        <h5 class="fw-bold mb-2">Banco de Dados</h5>
+                        <p class="text-secondary small mb-0">
+                            Modelagem, SQL, NoSQL e integração com sistemas.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="sobre-card">
+                        <div class="sobre-icon"><i class="bi bi-diagram-3"></i></div>
+                        <h5 class="fw-bold mb-2">Engenharia de Software</h5>
+                        <p class="text-secondary small mb-0">
+                            Análise de requisitos, arquitetura e qualidade de software.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="sobre-card">
+                        <div class="sobre-icon"><i class="bi bi-people"></i></div>
+                        <h5 class="fw-bold mb-2">Gestão e Mercado</h5>
+                        <p class="text-secondary small mb-0">
+                            Empreendedorismo, gestão de projetos e preparação para o mercado.
+                        </p>
                     </div>
                 </div>
             </div>
 
-            <!-- LINK INSCRIÇÃO ATIVO -->
-            <a href="https://unifip.com.br/inscricao" target="_blank" style="text-decoration:none;">
-                <button class="btn btn-expand btn-primary text-white px-5 py-3 mt-3 mb-5 gap-2">
-                    <i class="bi bi-send-check-fill"></i>Inscreva-se já!
-                </button>
-            </a>
+            <!-- Infos + inscrição -->
+            <div class="row justify-content-center g-4 mt-4">
+                <div class="col-12 col-md-6 col-lg-5">
+                    <div class="p-4 shadow-sm-custom h-100">
+                        <ul class="list-unstyled d-flex flex-column gap-3 mb-0">
+                            <li class="d-flex gap-2 align-items-center">
+                                <i class="bi bi-currency-dollar text-warning fs-4"></i>
+                                <span><strong>Matrícula:</strong> R$ 721,00</span>
+                            </li>
+                            <li class="d-flex gap-2 align-items-center">
+                                <i class="bi bi-currency-dollar text-warning fs-4"></i>
+                                <span><strong>Mensalidade:</strong> R$ 703,00</span>
+                            </li>
+                            <li class="d-flex gap-2 align-items-center">
+                                <i class="bi bi-clock-fill text-warning fs-4"></i>
+                                <span><strong>Turno:</strong> Noturno</span>
+                            </li>
+                            <li class="d-flex gap-2 align-items-center">
+                                <i class="bi bi-mortarboard-fill text-warning fs-4"></i>
+                                <span><strong>Duração:</strong> 2 anos e meio</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 col-lg-5">
+                    <div class="p-4 shadow-sm-custom h-100">
+                        <ul class="list-unstyled d-flex flex-column gap-3 mb-0">
+                            <li class="d-flex gap-2 align-items-center">
+                                <i class="bi bi-geo-alt-fill text-warning fs-4"></i>
+                                <span><strong>Local:</strong> Patos, Paraíba, Brasil</span>
+                            </li>
+                            <li class="d-flex gap-2 align-items-center">
+                                <i class="bi bi-person-fill text-warning fs-4"></i>
+                                <span><strong>Coordenador:</strong> Sormany Silva Dantas</span>
+                            </li>
+                            <li class="d-flex gap-2 align-items-center">
+                                <i class="bi bi-envelope-fill text-warning fs-4"></i>
+                                <span><strong>Email:</strong> coordenacao@ads.fiponline.edu.br</span>
+                            </li>
+                            <li class="d-flex gap-2 align-items-center">
+                                <i class="bi bi-phone-fill text-warning fs-4"></i>
+                                <span><strong>Contato:</strong> (83) 3421-4047</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="https://unifip.com.br/inscricao" target="_blank" style="text-decoration:none;">
+                    <button class="btn btn-expand btn-primary text-white px-5 py-3 gap-2">
+                        <i class="bi bi-send-check-fill"></i>Inscreva-se já!
+                    </button>
+                </a>
+            </div>
         </div>
     </section>
 
-    <!-- Vídeo Section - CORRIGIDO -->
+    <!-- ═══════════════════════════════════════
+         ÚLTIMAS NOTÍCIAS — Pessoa 3
+    ════════════════════════════════════════ -->
+    {% if ultimas_noticias %}
+    <section class="noticias-section bg-light-custom">
+        <div class="container">
+            <div class="row justify-content-center text-center mb-5">
+                <div class="col-lg-7">
+                    <p class="section-eyebrow">Fique por dentro</p>
+                    <h2 class="fw-bold fs-1 text-primary mb-3">
+                        Últimas <span class="polygon-curso">Notícias</span>
+                    </h2>
+                </div>
+            </div>
+
+            <div class="row g-4 justify-content-center">
+                {% for noticia in ultimas_noticias %}
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="noticia-card">
+                        {% if noticia.img_noticia %}
+                            <img src="{{ noticia.img_noticia.url }}" alt="{{ noticia.titulo_noticia }}">
+                        {% else %}
+                            <div class="noticia-img-placeholder">
+                                <i class="bi bi-newspaper"></i>
+                            </div>
+                        {% endif %}
+                        <div class="noticia-body">
+                            <p class="noticia-data">
+                                <i class="bi bi-calendar3 me-1"></i>
+                                {{ noticia.data_publicacao|date:"d/m/Y" }}
+                            </p>
+                            <h5 class="noticia-titulo">{{ noticia.titulo_noticia }}</h5>
+                            <p class="noticia-resumo">{{ noticia.descricao_resumida }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="text-center mt-5">
+                <a href="{% url 'noticias' %}" style="text-decoration:none;">
+                    <button class="btn btn-expand btn-secondary-custom text-white px-5 py-3">
+                        <i class="bi bi-newspaper"></i>Ver todas as notícias
+                    </button>
+                </a>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- ═══════════════════════════════════════
+         VÍDEO
+    ════════════════════════════════════════ -->
     <section class="bg-white py-5">
         <div class="container">
             <div class="text-center mb-4">
+                <p class="section-eyebrow">Institucional</p>
                 <h2 class="fw-bold">Conheça o <span class="polygon-curso">curso</span></h2>
             </div>
             <div class="row justify-content-center">
                 <div class="col-lg-10">
                     <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/iYg5at4OXiE?rel=0&modestbranding=1&autoplay=0" 
-                                title="Vídeo institucional ADS" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        <iframe src="https://www.youtube.com/embed/iYg5at4OXiE?rel=0&modestbranding=1"
+                                title="Vídeo institucional ADS"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowfullscreen loading="lazy">
                         </iframe>
                     </div>
@@ -278,51 +612,50 @@
         </div>
     </section>
 
-    <!-- Área de Atuação -->
-    <section class="d-flex justify-content-center align-items-center bg-light-custom m-0 pb-5">
-        <div class="container py-4">
-            <div class="text-center">
-                <h1 class="fw-bold fs-1 text-primary my-4">Área
-                    <span class="polygon-curso">Atuação</span>
-                </h1>
+    <!-- ═══════════════════════════════════════
+         ÁREA DE ATUAÇÃO
+    ════════════════════════════════════════ -->
+    <section class="bg-light-custom py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <p class="section-eyebrow">Mercado de trabalho</p>
+                <h2 class="fw-bold fs-1 text-primary">
+                    Área de <span class="polygon-curso">Atuação</span>
+                </h2>
             </div>
-
-            <div class="row g-4 justify-content-center mt-2">
-                <div class="col-12 col-md-6 col-lg-3">
+            <div class="row g-4 justify-content-center">
+                <div class="col-12 col-sm-6 col-lg-3">
                     <div class="card-modern">
-                        <img class="img-fluid" src="{% static 'assets/image-1.png' %}" alt="Analista de sistemas" style="height: 200px; object-fit: cover; width: 100%;">
+                        <img class="img-fluid" src="{% static 'assets/image-1.png' %}" alt="Analista de sistemas" style="height:200px;object-fit:cover;width:100%;">
                         <div class="p-3">
                             <h5 class="fw-bold">Analista de sistemas</h5>
                             <p class="small text-secondary">Profissional que analisa e desenvolve softwares e programas. Mapeia processos e realiza modelagem de dados.</p>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-12 col-md-6 col-lg-3">
+                <div class="col-12 col-sm-6 col-lg-3">
                     <div class="card-modern">
-                        <img class="img-fluid" src="{% static 'assets/image-2.png' %}" alt="Gestor de Projetos de sistemas" style="height: 200px; object-fit: cover; width: 100%;">
+                        <img class="img-fluid" src="{% static 'assets/image-2.png' %}" alt="Gestor de Projetos" style="height:200px;object-fit:cover;width:100%;">
                         <div class="p-3">
-                            <h5 class="fw-bold">Gestor de Projetos de sistemas</h5>
+                            <h5 class="fw-bold">Gestor de Projetos</h5>
                             <p class="small text-secondary">Faz a interligação entre a administração da empresa e a área de computação.</p>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-12 col-md-6 col-lg-3">
+                <div class="col-12 col-sm-6 col-lg-3">
                     <div class="card-modern">
-                        <img class="img-fluid" src="{% static 'assets/image-3.png' %}" alt="Técnico de desenvolvimento de softwares e aplicativos" style="height: 200px; object-fit: cover; width: 100%;">
+                        <img class="img-fluid" src="{% static 'assets/image-3.png' %}" alt="Desenvolvedor de software" style="height:200px;object-fit:cover;width:100%;">
                         <div class="p-3">
-                            <h5 class="fw-bold">Técnico de desenvolvimento de softwares e aplicativos</h5>
-                            <p class="small text-secondary">Elabora programas e jogos para computadores e celulares.</p>
+                            <h5 class="fw-bold">Desenvolvedor de software</h5>
+                            <p class="small text-secondary">Elabora programas e aplicativos para computadores e celulares.</p>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-12 col-md-6 col-lg-3">
+                <div class="col-12 col-sm-6 col-lg-3">
                     <div class="card-modern">
-                        <img class="img-fluid" src="{% static 'assets/image-4.png' %}" alt="Gerente de projetos de sistemas" style="height: 200px; object-fit: cover; width: 100%;">
+                        <img class="img-fluid" src="{% static 'assets/image-4.png' %}" alt="Gerente de projetos" style="height:200px;object-fit:cover;width:100%;">
                         <div class="p-3">
-                            <h5 class="fw-bold">Gerente de projetos de sistemas</h5>
+                            <h5 class="fw-bold">Gerente de projetos</h5>
                             <p class="small text-secondary">É responsável por gerenciar o projeto em todos seus estágios.</p>
                         </div>
                     </div>
@@ -331,78 +664,58 @@
         </div>
     </section>
 
-    <!-- Perfil Profissional -->
-    <section class="row d-flex justify-content-center align-items-center m-0 py-5">
-        <div class="col-11 col-lg-10 d-flex flex-column justify-content-center align-items-center">
-            <h1 class="fw-bold fs-1 text-primary my-4">Perfil
-                <span class="polygon-curso">Profissional</span>
-            </h1>
-
-            <p class="fs-lg-5 fs-6 text-center text-md-start">O profissional formado em Análise e Desenvolvimento de Sistemas é capaz de analisar, projetar, desenvolver,
-                implementar e manter sistemas de informação, com conhecimentos de programação, banco de dados, redes, engenharia
-                de software, sistemas operacionais, entre outros.
-            </p>
-
-            <div class="container mt-3">
-                <div class="row">
-                    <div class="col-md-6">
-                        <ul class="list-unstyled links-list-orange">
-                            <li><i class="bi bi-arrow-right"></i>Análise de Requisitos</li>
-                            <li><i class="bi bi-arrow-right"></i>Modelagem de Sistemas</li>
-                            <li><i class="bi bi-arrow-right"></i>Desenvolvimento e Integração</li>
-                        </ul>
-                    </div>
-                    <div class="col-md-6">
-                        <ul class="list-unstyled links-list-orange">
-                            <li><i class="bi bi-arrow-right"></i>Testes e Qualidade</li>
-                            <li><i class="bi bi-arrow-right"></i>Suporte e Manutenção</li>
-                            <li><i class="bi bi-arrow-right"></i>Banco de Dados</li>
-                        </ul>
-                    </div>
+    <!-- ═══════════════════════════════════════
+         PERFIL PROFISSIONAL + ESTRUTURA CURRICULAR
+    ════════════════════════════════════════ -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-5 justify-content-center">
+                <!-- Perfil -->
+                <div class="col-12 col-lg-6">
+                    <p class="section-eyebrow">Competências</p>
+                    <h2 class="fw-bold fs-2 text-primary mb-3">
+                        Perfil <span class="polygon-curso">Profissional</span>
+                    </h2>
+                    <p class="text-secondary mb-4">
+                        Profissional capaz de analisar, projetar, desenvolver, implementar e manter
+                        sistemas de informação com domínio técnico e visão estratégica.
+                    </p>
+                    <ul class="list-unstyled links-list-orange">
+                        <li><i class="bi bi-arrow-right"></i>Análise de Requisitos</li>
+                        <li><i class="bi bi-arrow-right"></i>Modelagem de Sistemas</li>
+                        <li><i class="bi bi-arrow-right"></i>Desenvolvimento e Integração</li>
+                        <li><i class="bi bi-arrow-right"></i>Testes e Qualidade</li>
+                        <li><i class="bi bi-arrow-right"></i>Suporte e Manutenção</li>
+                        <li><i class="bi bi-arrow-right"></i>Banco de Dados</li>
+                    </ul>
+                </div>
+                <!-- Estrutura Curricular -->
+                <div class="col-12 col-lg-6">
+                    <p class="section-eyebrow">Grade</p>
+                    <h2 class="fw-bold fs-2 text-primary mb-3">
+                        Estrutura <span class="polygon-curso">Curricular</span>
+                    </h2>
+                    <p class="text-secondary mb-4">
+                        Disciplinas que cobrem desde programação até empreendedorismo,
+                        preparando para o mercado em 5 semestres.
+                    </p>
+                    <ul class="list-unstyled links-list-orange">
+                        <li><i class="bi bi-arrow-right"></i>Programação Estruturada</li>
+                        <li><i class="bi bi-arrow-right"></i>Programação Orientada a Objetos</li>
+                        <li><i class="bi bi-arrow-right"></i>Engenharia de Software</li>
+                        <li><i class="bi bi-arrow-right"></i>Desenvolvimento Web</li>
+                        <li><i class="bi bi-arrow-right"></i>Desenvolvimento Mobile</li>
+                        <li><i class="bi bi-arrow-right"></i>Empreendedorismo</li>
+                    </ul>
+                    <a href="{% url 'matriz_curricular' %}" style="text-decoration:none;">
+                        <button class="btn btn-expand btn-secondary-custom text-white px-4 py-2 mt-2">
+                            <i class="bi bi-filetype-pdf"></i>Ver matriz completa
+                        </button>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Estrutura Curricular -->
-    <section class="row d-flex justify-content-center align-items-center m-0 bg-light-custom py-5">
-        <div class="col-11 col-lg-10 d-flex flex-column justify-content-center align-items-center">
-            <h1 class="fw-bold fs-1 text-primary my-4">Estrutura
-                <span class="polygon-curso">Curricular</span>
-            </h1>
-
-            <p class="fs-5 text-center">A estrutura curricular do curso de Análise e Desenvolvimento de Sistemas é composta
-                por disciplinas que abordam conteúdos de programação, banco de dados, redes, engenharia de software,
-                sistemas operacionais, entre outros. Confira algumas disciplinas do curso:
-            </p>
-
-            <div class="container mt-3">
-                <div class="row">
-                    <div class="col-md-6">
-                        <ul class="list-unstyled links-list-orange">
-                            <li><i class="bi bi-arrow-right"></i>Programação Estruturada</li>
-                            <li><i class="bi bi-arrow-right"></i>Programação Orientada a Objetos</li>
-                            <li><i class="bi bi-arrow-right"></i>Engenharia de Software</li>
-                        </ul>
-                    </div>
-                    <div class="col-md-6">
-                        <ul class="list-unstyled links-list-orange">
-                            <li><i class="bi bi-arrow-right"></i>Desenvolvimento Web</li>
-                            <li><i class="bi bi-arrow-right"></i>Desenvolvimento Mobile</li>
-                            <li><i class="bi bi-arrow-right"></i>Empreendedorismo</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 </main>
-
-<script>
-    // Garantir que o vídeo carregue corretamente
-    document.querySelectorAll('.video-wrapper iframe').forEach(iframe => {
-        iframe.setAttribute('allowfullscreen', '');
-        iframe.setAttribute('loading', 'lazy');
-    });
-</script>
 {% endblock content %}

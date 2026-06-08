@@ -1,7 +1,9 @@
-
 from django.urls import path
-from .views import *
-from ads_app import views
+from .views import (
+    IndexView, DocumentosView, DisciplinasView, NoticiasView,
+    ProjetosView, ExtensoesView, MonitoriasView,
+    ContatoView, enviar_contato, projeto_detalhes, matriz_curricular
+)
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
@@ -12,5 +14,7 @@ urlpatterns = [
     path('projetos/<int:projeto_id>/detalhes/', projeto_detalhes, name='projeto_detalhes'),
     path('extensoes/', ExtensoesView.as_view(), name='extensoes'),
     path('monitorias/', MonitoriasView.as_view(), name='monitorias'),
-    path('matriz-curricular/', views.matriz_curricular, name='matriz_curricular'),
+    path('matriz-curricular/', matriz_curricular, name='matriz_curricular'),
+    path('contato/', ContatoView.as_view(), name='contato'),
+    path('contato/enviar/', enviar_contato, name='enviar_contato'),
 ]

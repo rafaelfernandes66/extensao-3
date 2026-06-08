@@ -1,0 +1,324 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Contato | ADS{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --secondary: #ff6a00;
+        --secondary-dark: #e05d00;
+        --transition: all 0.25s ease;
+    }
+
+    .contato-section {
+        min-height: 80vh;
+        background: #f8fafc;
+        padding: 70px 0;
+    }
+
+    .contato-card {
+        background: #fff;
+        border-radius: 24px;
+        box-shadow: 0 20px 40px -16px rgba(0,0,0,0.1);
+        padding: 48px 40px;
+    }
+
+    .section-eyebrow {
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--secondary);
+    }
+
+    .polygon-curso {
+        background: linear-gradient(120deg, var(--secondary) 0%, #ff884d 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        font-weight: 800;
+    }
+
+    .form-control, .form-select {
+        border-radius: 12px;
+        border: 1.5px solid #e2e8f0;
+        padding: 12px 16px;
+        font-size: 0.95rem;
+        transition: var(--transition);
+        background: #f8fafc;
+    }
+
+    .form-control:focus {
+        border-color: var(--secondary);
+        box-shadow: 0 0 0 3px rgba(255,106,0,0.12);
+        background: #fff;
+    }
+
+    .form-label {
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #374151;
+        margin-bottom: 6px;
+    }
+
+    .btn-enviar {
+        background: var(--secondary);
+        color: #fff;
+        border: none;
+        border-radius: 40px;
+        padding: 14px 40px;
+        font-weight: 600;
+        font-size: 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: var(--transition);
+        cursor: pointer;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .btn-enviar:hover {
+        background: var(--secondary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px -8px rgba(255,106,0,0.4);
+    }
+
+    .alerta-sucesso {
+        background: #ecfdf5;
+        border: 1px solid #6ee7b7;
+        color: #065f46;
+        border-radius: 14px;
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 500;
+        margin-bottom: 24px;
+    }
+
+    .alerta-erro {
+        background: #fef2f2;
+        border: 1px solid #fca5a5;
+        color: #991b1b;
+        border-radius: 14px;
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 500;
+        margin-bottom: 24px;
+    }
+
+    .alerta-sucesso i, .alerta-erro i {
+        font-size: 1.4rem;
+        flex-shrink: 0;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        margin-bottom: 24px;
+    }
+
+    .info-icon {
+        width: 44px;
+        height: 44px;
+        background: rgba(255,106,0,0.1);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--secondary);
+        font-size: 1.2rem;
+        flex-shrink: 0;
+    }
+
+    .info-label {
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #9ca3af;
+        margin-bottom: 2px;
+    }
+
+    .info-value {
+        font-size: 0.95rem;
+        color: #111827;
+        font-weight: 500;
+    }
+
+    .campo-invalido {
+        border-color: #ef4444 !important;
+    }
+
+    .msg-invalido {
+        color: #ef4444;
+        font-size: 0.8rem;
+        margin-top: 4px;
+        display: none;
+    }
+
+    @media (max-width: 767px) {
+        .contato-card { padding: 28px 20px; }
+        .contato-section { padding: 40px 0; }
+    }
+</style>
+
+<section class="contato-section">
+    <div class="container">
+        <div class="row justify-content-center g-5">
+
+            <!-- Formulário -->
+            <div class="col-12 col-lg-7">
+                <div class="contato-card">
+
+                    <p class="section-eyebrow mb-1">Fale conosco</p>
+                    <h2 class="fw-bold mb-1">Entre em <span class="polygon-curso">Contato</span></h2>
+                    <p class="text-secondary mb-4">Preencha o formulário e retornaremos em breve.</p>
+
+                    {% if form_enviado %}
+                    <div class="alerta-sucesso">
+                        <i class="bi bi-check-circle-fill"></i>
+                        <div>
+                            <strong>Mensagem enviada com sucesso!</strong><br>
+                            <span style="font-weight:400">Entraremos em contato em breve.</span>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if form_erro %}
+                    <div class="alerta-erro">
+                        <i class="bi bi-exclamation-circle-fill"></i>
+                        <div>
+                            <strong>Atenção!</strong><br>
+                            <span style="font-weight:400">Preencha todos os campos corretamente antes de enviar.</span>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <form action="{% url 'enviar_contato' %}" method="POST" id="formContato" novalidate>
+                        {% csrf_token %}
+
+                        <div class="mb-3">
+                            <label for="nome" class="form-label">Nome completo</label>
+                            <input type="text" id="nome" name="nome" class="form-control"
+                                   placeholder="Seu nome completo" autocomplete="name">
+                            <p class="msg-invalido" id="erro-nome">Por favor, informe seu nome.</p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">E-mail</label>
+                            <input type="email" id="email" name="email" class="form-control"
+                                   placeholder="seu@email.com" autocomplete="email">
+                            <p class="msg-invalido" id="erro-email">Informe um e-mail válido.</p>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="mensagem" class="form-label">Mensagem</label>
+                            <textarea id="mensagem" name="mensagem" class="form-control"
+                                      rows="5" placeholder="Como podemos ajudar?"></textarea>
+                            <p class="msg-invalido" id="erro-mensagem">Por favor, escreva sua mensagem.</p>
+                        </div>
+
+                        <button type="submit" class="btn-enviar">
+                            <i class="bi bi-send-fill"></i>Enviar mensagem
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Informações -->
+            <div class="col-12 col-lg-4">
+                <p class="section-eyebrow mb-1">Informações</p>
+                <h3 class="fw-bold mb-4">Como nos <span class="polygon-curso">encontrar</span></h3>
+
+                <div class="info-item">
+                    <div class="info-icon"><i class="bi bi-geo-alt-fill"></i></div>
+                    <div>
+                        <p class="info-label">Endereço</p>
+                        <p class="info-value mb-0">Patos, Paraíba, Brasil</p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon"><i class="bi bi-person-fill"></i></div>
+                    <div>
+                        <p class="info-label">Coordenador</p>
+                        <p class="info-value mb-0">Sormany Silva Dantas</p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon"><i class="bi bi-envelope-fill"></i></div>
+                    <div>
+                        <p class="info-label">E-mail</p>
+                        <p class="info-value mb-0">coordenacao@ads.fiponline.edu.br</p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon"><i class="bi bi-telephone-fill"></i></div>
+                    <div>
+                        <p class="info-label">Telefone</p>
+                        <p class="info-value mb-0">(83) 3421-4047</p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-icon"><i class="bi bi-clock-fill"></i></div>
+                    <div>
+                        <p class="info-label">Horário de atendimento</p>
+                        <p class="info-value mb-0">Segunda a sexta, 18h às 22h</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<script>
+document.getElementById('formContato').addEventListener('submit', function(e) {
+    let valido = true;
+
+    const nome = document.getElementById('nome');
+    const email = document.getElementById('email');
+    const mensagem = document.getElementById('mensagem');
+
+    // Limpa erros anteriores
+    [nome, email, mensagem].forEach(function(campo) {
+        campo.classList.remove('campo-invalido');
+    });
+    document.querySelectorAll('.msg-invalido').forEach(function(el) {
+        el.style.display = 'none';
+    });
+
+    if (!nome.value.trim()) {
+        nome.classList.add('campo-invalido');
+        document.getElementById('erro-nome').style.display = 'block';
+        valido = false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email.value.trim() || !emailRegex.test(email.value.trim())) {
+        email.classList.add('campo-invalido');
+        document.getElementById('erro-email').style.display = 'block';
+        valido = false;
+    }
+
+    if (!mensagem.value.trim()) {
+        mensagem.classList.add('campo-invalido');
+        document.getElementById('erro-mensagem').style.display = 'block';
+        valido = false;
+    }
+
+    if (!valido) {
+        e.preventDefault();
+    }
+});
+</script>
+{% endblock content %}
