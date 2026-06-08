@@ -92,17 +92,9 @@ Fique à vontade para sugerir melhorias ou reportar bugs abrindo uma issue ou en
 - Pâmella Maria
 - Pedro Henrique de Lucema
 
-### Equipe 2025.2
-- André Itiel
-- Antonio Angelo
-- Carlos Eduardo
-- Erick Pereira
-- Fábio Ariel
-- Guilherme Paulino
-- Kauã Santos
-- Lael Lacerda
-- Paulo Henrique
+### Equipe 2026.2
 - Rafael Fernandes
-- Samuel Victor
+- Anderson Silva
+- João victor
 
 Projeto desenvolvido para o Curso de Análise e Desenvolvimento de Sistemas da Unifip.
