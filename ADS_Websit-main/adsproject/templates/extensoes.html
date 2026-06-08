@@ -1,0 +1,380 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Extensões | ADS{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Mantendo consistência absoluta com o estilo das páginas anteriores */
+    :root {
+        --primary: #0d6efd;
+        --primary-dark: #0b5ed7;
+        --secondary: #ff6a00;
+        --secondary-dark: #e05d00;
+        --light-bg: #f8fafc;
+        --card-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
+        --transition: all 0.25s ease;
+    }
+
+    .bg-title {
+        background: linear-gradient(135deg, #0a192f 0%, #0f2b3d 100%);
+        min-height: 40vh;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .bg-title::before {
+        content: '';
+        position: absolute;
+        width: 150%;
+        height: 150%;
+        background: radial-gradient(circle at 20% 40%, rgba(255,106,0,0.12), transparent 70%);
+        top: -20%;
+        left: -20%;
+        pointer-events: none;
+    }
+
+    .bg-orange {
+        background: linear-gradient(90deg, var(--secondary), #ff8c3a);
+        height: 4px;
+        border-radius: 4px;
+        margin: 1rem auto;
+    }
+
+    .bg-light-custom {
+        background-color: var(--light-bg);
+    }
+
+    .polygon-curso {
+        background: linear-gradient(120deg, var(--secondary) 0%, #ff884d 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        font-weight: 800;
+    }
+
+    .extensao-card {
+        transition: var(--transition);
+        border: 1px solid rgba(0,0,0,0.05);
+        border-radius: 1rem !important;
+        cursor: pointer;
+    }
+
+    .extensao-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--card-shadow);
+        border-color: var(--secondary);
+    }
+
+    .extensao-icon {
+        width: 50px;
+        height: 50px;
+        background: rgba(255,106,0,0.1);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .badge-status {
+        background: rgba(255,106,0,0.12);
+        color: var(--secondary-dark);
+        font-weight: 600;
+        padding: 6px 14px;
+        border-radius: 40px;
+        font-size: 0.75rem;
+    }
+
+    .badge-status-ativo {
+        background: rgba(13,110,253,0.12);
+        color: var(--primary-dark);
+    }
+
+    .btn-secondary-custom {
+        background: var(--secondary);
+        border: none;
+        transition: var(--transition);
+        border-radius: 40px;
+        padding: 0.5rem 1.2rem;
+        font-weight: 600;
+    }
+
+    .btn-secondary-custom:hover {
+        background: var(--secondary-dark);
+        transform: translateY(-2px);
+    }
+
+    .btn-outline-custom {
+        border: 1.5px solid var(--secondary);
+        color: var(--secondary);
+        background: transparent;
+        border-radius: 40px;
+        padding: 0.5rem 1.2rem;
+        font-weight: 600;
+        transition: var(--transition);
+    }
+
+    .btn-outline-custom:hover {
+        background: var(--secondary);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .section-header {
+        position: relative;
+        margin-bottom: 2rem;
+    }
+
+    .section-header h2 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--primary);
+    }
+
+    .section-header .bg-orange {
+        width: 60px;
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+        .bg-title {
+            min-height: 30vh;
+        }
+        .extensao-icon {
+            width: 40px;
+            height: 40px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block page_header %}
+<section class="bg-title text-white text-center py-5 d-flex align-items-center justify-content-center flex-column">
+    <div class="container">
+        <h1 class="fw-bold display-4">EXTENSÕES</h1>
+        <div class="bg-orange mx-auto my-3" style="width: 100px;"></div>
+        <p class="fs-5 text-white-50">Projetos de extensão que conectam a universidade com a comunidade</p>
+    </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<main>
+    <section class="bg-light-custom py-5">
+        <div class="container">
+            <div class="row g-4">
+
+                <!-- COLUNA PRINCIPAL -->
+                <div class="col-lg-8">
+                    <div class="mb-4">
+                        <h1 class="fw-bold text-primary">
+                            Projetos de <span class="polygon-curso">Extensão</span>
+                        </h1>
+                        <div class="bg-orange my-3" style="width: 60px; margin-left: 0;"></div>
+                        <p class="text-secondary">Descubra as extensões atuais e futuras do curso de Análise e Desenvolvimento de Sistemas, incluindo informações sobre professores, temas e como participar.</p>
+                    </div>
+
+                    <!-- Extensões Atuais -->
+                    <div class="mb-5">
+                        <div class="d-flex align-items-center gap-3 mb-4">
+                            <div class="extensao-icon">
+                                <i class="bi bi-rocket-takeoff fs-3 text-secondary"></i>
+                            </div>
+                            <div>
+                                <h2 class="fw-bold text-primary mb-0">Extensões Atuais</h2>
+                                <div class="bg-orange mt-2" style="width: 50px;"></div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            {% for extensao in extensoes_atuais %}
+                            <div class="col-12">
+                                <div class="card extensao-card border-0 shadow-sm">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex flex-wrap align-items-start justify-content-between gap-3">
+                                            <div class="d-flex gap-3 flex-grow-1">
+                                                <div class="extensao-icon flex-shrink-0">
+                                                    <i class="bi bi-star-fill fs-3 text-secondary"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="card-title fw-bold text-primary mb-2">{{ extensao.nome_extensao }}</h5>
+                                                    <p class="card-text text-muted mb-2">{{ extensao.assunto|truncatechars:120 }}</p>
+                                                    <div class="d-flex flex-wrap gap-3 mt-2">
+                                                        <span class="badge-status">
+                                                            <i class="bi bi-person-circle me-1"></i>{{ extensao.professor }}
+                                                        </span>
+                                                        <span class="badge-status badge-status-ativo">
+                                                            <i class="bi bi-calendar-check me-1"></i>Em andamento
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <a href="#" class="btn btn-outline-custom flex-shrink-0" data-bs-toggle="modal" data-bs-target="#extensaoModal" 
+                                               data-nome="{{ extensao.nome_extensao }}"
+                                               data-professor="{{ extensao.professor }}"
+                                               data-assunto="{{ extensao.assunto }}"
+                                               data-tipo="Atual">
+                                                <i class="bi bi-info-circle me-1"></i>Detalhes
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <div class="col-12">
+                                <div class="text-center py-5 bg-white rounded-4 shadow-sm">
+                                    <i class="bi bi-inbox fs-1 text-muted"></i>
+                                    <p class="text-muted mt-3 mb-0">Nenhuma extensão atual cadastrada.</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Extensões Futuras -->
+                    <div>
+                        <div class="d-flex align-items-center gap-3 mb-4">
+                            <div class="extensao-icon">
+                                <i class="bi bi-calendar-event fs-3 text-secondary"></i>
+                            </div>
+                            <div>
+                                <h2 class="fw-bold text-primary mb-0">Extensões Futuras</h2>
+                                <div class="bg-orange mt-2" style="width: 50px;"></div>
+                            </div>
+                        </div>
+
+                        <div class="row g-3">
+                            {% for extensao in extensoes_futuras %}
+                            <div class="col-12">
+                                <div class="card extensao-card border-0 shadow-sm opacity-75">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex flex-wrap align-items-start justify-content-between gap-3">
+                                            <div class="d-flex gap-3 flex-grow-1">
+                                                <div class="extensao-icon flex-shrink-0">
+                                                    <i class="bi bi-clock-history fs-3 text-secondary"></i>
+                                                </div>
+                                                <div>
+                                                    <h5 class="card-title fw-bold text-primary mb-2">{{ extensao.nome_extensao }}</h5>
+                                                    <p class="card-text text-muted mb-2">{{ extensao.assunto|truncatechars:120 }}</p>
+                                                    <div class="d-flex flex-wrap gap-3 mt-2">
+                                                        <span class="badge-status">
+                                                            <i class="bi bi-person-circle me-1"></i>{{ extensao.professor }}
+                                                        </span>
+                                                        <span class="badge-status">
+                                                            <i class="bi bi-hourglass-split me-1"></i>Em breve
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <a href="#" class="btn btn-outline-custom flex-shrink-0" data-bs-toggle="modal" data-bs-target="#extensaoModal" 
+                                               data-nome="{{ extensao.nome_extensao }}"
+                                               data-professor="{{ extensao.professor }}"
+                                               data-assunto="{{ extensao.assunto }}"
+                                               data-tipo="Futura">
+                                                <i class="bi bi-bell me-1"></i>Notificar
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <div class="col-12">
+                                <div class="text-center py-5 bg-white rounded-4 shadow-sm">
+                                    <i class="bi bi-calendar-x fs-1 text-muted"></i>
+                                    <p class="text-muted mt-3 mb-0">Nenhuma extensão futura cadastrada.</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SIDEBAR (UTILIDADES) - mesmo include das outras páginas -->
+                <div class="col-lg-4">
+                    {% include 'partials/_painel_utilidades.html' %}
+                </div>
+
+            </div><!-- /.row -->
+        </div><!-- /.container -->
+    </section>
+
+    <!-- Modal para detalhes da extensão (consistente com o modal de disciplinas) -->
+    <div class="modal fade" id="extensaoModal" tabindex="-1" aria-labelledby="extensaoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #0a192f 0%, #0f2b3d 100%);">
+                    <h5 class="modal-title text-white" id="extensaoModalLabel">
+                        <i class="bi bi-diagram-3 me-2"></i>Detalhes da Extensão
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="text-center mb-3">
+                        <div class="extensao-icon mx-auto mb-3" style="width: 70px; height: 70px;">
+                            <i class="bi bi-rocket-takeoff fs-1 text-secondary"></i>
+                        </div>
+                    </div>
+                    <h4 id="modal-extensao-nome" class="fw-bold text-primary text-center mb-3"></h4>
+                    <div class="bg-orange mx-auto mb-4" style="width: 50px;"></div>
+                    
+                    <div class="mb-3">
+                        <label class="fw-bold text-secondary mb-1">
+                            <i class="bi bi-person-badge me-2"></i>Professor Responsável
+                        </label>
+                        <p id="modal-extensao-professor" class="mb-3 p-2 bg-light rounded"></p>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="fw-bold text-secondary mb-1">
+                            <i class="bi bi-card-text me-2"></i>Tema / Assunto
+                        </label>
+                        <p id="modal-extensao-assunto" class="mb-3 p-2 bg-light rounded"></p>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="fw-bold text-secondary mb-1">
+                            <i class="bi bi-info-circle me-2"></i>Status
+                        </label>
+                        <p><span id="modal-extensao-tipo" class="badge-status"></span></p>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary-custom text-white px-4" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-2"></i>Fechar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Script para manipular o modal de extensões (consistente com o modal de disciplinas)
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('extensaoModal');
+        
+        if (modal) {
+            modal.addEventListener('show.bs.modal', function(event) {
+                const button = event.relatedTarget;
+                
+                // Coletar dados do card clicado
+                const nome = button.getAttribute('data-nome') || '';
+                const professor = button.getAttribute('data-professor') || '';
+                const assunto = button.getAttribute('data-assunto') || '';
+                const tipo = button.getAttribute('data-tipo') || '';
+                
+                // Preencher o modal
+                document.getElementById('modal-extensao-nome').textContent = nome;
+                document.getElementById('modal-extensao-professor').textContent = professor;
+                document.getElementById('modal-extensao-assunto').textContent = assunto;
+                const tipoSpan = document.getElementById('modal-extensao-tipo');
+                tipoSpan.textContent = tipo === 'Atual' ? '✅ Em andamento' : '📅 Planejada / Em breve';
+                tipoSpan.className = tipo === 'Atual' ? 'badge-status badge-status-ativo' : 'badge-status';
+            });
+        }
+    });
+</script>
+{% endblock %}

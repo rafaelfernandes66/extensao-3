@@ -1,0 +1,135 @@
+/* ======== Estilização Geral ======== */
+.list-group-item {
+  border-bottom: 1px solid #ddd !important;
+  padding: 12px;
+}
+
+/* Remove a linha do último item */
+.list-group-item:last-child {
+  border-bottom: none;
+}
+
+/* Estilização dos links dentro dos itens */
+.list-group-item a {
+  color: var(--bs-primary);
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: color 0.3s ease-in-out;
+}
+
+/* Efeito hover */
+.list-group-item a:hover {
+  color: var(--bs-secondary) !important;
+}
+
+/* Ícone dentro dos itens */
+.list-group-item i {
+  margin-right: 1rem;
+}
+
+/* ======== Botões das Pastas ======== */
+.btn-primary {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  border: none;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+}
+
+/* Cores específicas para cada pasta */
+#documents-ingresso .btn {
+  background-color: #004aad; /* Azul escuro */
+}
+
+#documents-ingresso .btn:hover {
+  background-color: #005ae1;
+}
+
+#documents-matricula .btn {
+  background-color: #198754; /* Verde institucional */
+}
+
+#documents-matricula .btn:hover {
+  background-color: #25a062;
+}
+
+/* ======== Sidebar UTILIDADES ======== */
+.utilities h1 {
+  color: var(--bs-primary);
+  font-size: 1.6rem;
+}
+
+/* Estilização dos itens da barra de utilidades */
+.utilities .list-group-item {
+  text-align: center;
+  font-weight: bold;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, transform 0.2s ease;
+}
+
+/* Efeito ao passar o mouse */
+.utilities .list-group-item:hover {
+  background-color: #f5f5f5;
+  color: var(--bs-secondary) !important;
+  transform: translateX(5px);
+}
+
+/* ======== Efeitos Visuais ======== */
+.collapse {
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border-radius: 10px;
+}
+
+/* ======== Títulos ======== */
+h1.fw-bold.text-primary {
+  font-size: 1.8rem;
+}
+
+h2.text-secondary {
+  font-size: 1.3rem;
+  color: #ff7b00 !important;
+}
+
+/* ======== Tema Escuro ======== */
+[data-bs-theme="dark"] {
+  --bs-primary: #ffffff;
+  --bs-secondary: #ee7d14;
+
+  body {
+    background-color: #0e0e10;
+    color: #f1f1f1;
+  }
+
+  .bg-light {
+    background-color: #1b1e1f !important;
+  }
+
+  .bg-white {
+    background-color: #181a1b !important;
+  }
+
+  .list-group-item {
+    background-color: #212124;
+    border-color: #333;
+  }
+
+  .utilities .list-group-item:hover {
+    background-color: #2a2a2a;
+  }
+
+  .btn-primary {
+    color: #fff;
+  }
+
+  #documents-ingresso .btn {
+    background-color: #0a58ca;
+  }
+
+  #documents-matricula .btn {
+    background-color: #157347;
+  }
+}

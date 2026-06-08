@@ -1,0 +1,464 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Monitorias | ADS{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Mantendo consistência absoluta com o estilo das páginas anteriores */
+    :root {
+        --primary: #0d6efd;
+        --primary-dark: #0b5ed7;
+        --secondary: #ff6a00;
+        --secondary-dark: #e05d00;
+        --light-bg: #f8fafc;
+        --card-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
+        --transition: all 0.25s ease;
+    }
+
+    .bg-title {
+        background: linear-gradient(135deg, #0a192f 0%, #0f2b3d 100%);
+        min-height: 40vh;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .bg-title::before {
+        content: '';
+        position: absolute;
+        width: 150%;
+        height: 150%;
+        background: radial-gradient(circle at 20% 40%, rgba(255,106,0,0.12), transparent 70%);
+        top: -20%;
+        left: -20%;
+        pointer-events: none;
+    }
+
+    .bg-orange {
+        background: linear-gradient(90deg, var(--secondary), #ff8c3a);
+        height: 4px;
+        border-radius: 4px;
+        margin: 1rem auto;
+    }
+
+    .bg-light-custom {
+        background-color: var(--light-bg);
+    }
+
+    .polygon-curso {
+        background: linear-gradient(120deg, var(--secondary) 0%, #ff884d 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        font-weight: 800;
+    }
+
+    /* Breadcrumb moderno */
+    .breadcrumb-modern {
+        background: white;
+        border-radius: 1rem;
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 1.5rem;
+        box-shadow: var(--card-shadow);
+    }
+
+    .breadcrumb-modern .breadcrumb-item a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+        transition: var(--transition);
+    }
+
+    .breadcrumb-modern .breadcrumb-item a:hover {
+        color: var(--secondary);
+    }
+
+    .breadcrumb-modern .breadcrumb-item.active {
+        color: var(--secondary);
+        font-weight: 600;
+    }
+
+    .breadcrumb-modern .breadcrumb-item + .breadcrumb-item::before {
+        content: '\F285';
+        font-family: 'bootstrap-icons';
+        color: var(--secondary);
+    }
+
+    /* Título da página */
+    .page-title {
+        margin-bottom: 2rem;
+        position: relative;
+    }
+
+    .page-title h2 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .page-title .bg-orange {
+        width: 60px;
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+
+    /* Cards de monitoria modernizados */
+    .monitoria-card {
+        background: white;
+        border-radius: 1rem;
+        overflow: hidden;
+        transition: var(--transition);
+        height: 100%;
+        box-shadow: var(--card-shadow);
+        border: none;
+        cursor: pointer;
+    }
+
+    .monitoria-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 25px 40px -14px rgba(0, 0, 0, 0.15);
+    }
+
+    .monitoria-img-wrapper {
+        position: relative;
+        overflow: hidden;
+        height: 200px;
+    }
+
+    .monitoria-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .monitoria-card:hover .monitoria-img {
+        transform: scale(1.05);
+    }
+
+    .monitoria-badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: var(--secondary);
+        color: white;
+        padding: 0.3rem 0.8rem;
+        border-radius: 40px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        z-index: 1;
+    }
+
+    .monitoria-body {
+        padding: 1.25rem;
+    }
+
+    .monitoria-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 0.75rem;
+        line-height: 1.4;
+    }
+
+    .monitoria-description {
+        font-size: 0.875rem;
+        color: #6c757d;
+        line-height: 1.5;
+        margin-bottom: 0;
+    }
+
+    .monitoria-footer {
+        padding: 1rem 1.25rem;
+        background: rgba(255,106,0,0.05);
+        border-top: 1px solid rgba(0,0,0,0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .monitoria-footer small {
+        color: var(--secondary-dark);
+        font-weight: 500;
+    }
+
+    .btn-detail {
+        background: transparent;
+        border: none;
+        color: var(--secondary);
+        font-weight: 600;
+        transition: var(--transition);
+    }
+
+    .btn-detail:hover {
+        color: var(--secondary-dark);
+        transform: translateX(4px);
+    }
+
+    /* Estado vazio */
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        background: white;
+        border-radius: 1rem;
+        box-shadow: var(--card-shadow);
+    }
+
+    .empty-state i {
+        font-size: 4rem;
+        color: #dee2e6;
+        margin-bottom: 1rem;
+    }
+
+    .empty-state p {
+        color: #6c757d;
+        margin-bottom: 0;
+    }
+
+    /* Modal de detalhes */
+    .modal-header-custom {
+        background: linear-gradient(135deg, #0a192f 0%, #0f2b3d 100%);
+    }
+
+    .modal-monitoria-img {
+        max-height: 250px;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 0.75rem;
+    }
+
+    @media (max-width: 768px) {
+        .bg-title {
+            min-height: 30vh;
+        }
+        .monitoria-img-wrapper {
+            height: 180px;
+        }
+        .page-title h2 {
+            font-size: 1.4rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block page_header %}
+<section class="bg-title text-white text-center py-5 d-flex align-items-center justify-content-center flex-column">
+    <div class="container">
+        <h1 class="fw-bold display-4">MONITORIAS</h1>
+        <div class="bg-orange mx-auto my-3" style="width: 100px;"></div>
+        <p class="fs-5 text-white-50">Programa de monitoria acadêmica para auxílio no aprendizado</p>
+    </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<main>
+    <section class="bg-light-custom py-5">
+        <div class="container">
+            <div class="row g-4">
+
+                <!-- COLUNA PRINCIPAL -->
+                <div class="col-lg-8">
+                    
+                    <!-- Breadcrumb moderno -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb breadcrumb-modern">
+                            <li class="breadcrumb-item"><a href="{% url 'index' %}">Início</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Monitorias</li>
+                        </ol>
+                    </nav>
+
+                    <!-- Título -->
+                    <div class="page-title">
+                        <h2>
+                            <span class="polygon-curso">Programas</span> de Monitoria
+                        </h2>
+                        <div class="bg-orange"></div>
+                        <p class="text-secondary mt-2">Confira as oportunidades de monitoria disponíveis para auxiliar no seu desenvolvimento acadêmico.</p>
+                    </div>
+
+                    <!-- Cards de Monitorias -->
+                    {% if monitorias %}
+                    <div class="row g-4">
+                        {% for monitoria in monitorias %}
+                        <div class="col-md-6 col-lg-6">
+                            <div class="monitoria-card" data-bs-toggle="modal" data-bs-target="#monitoriaModal"
+                                 data-id="{{ monitoria.id }}"
+                                 data-titulo="{{ monitoria.titulo_monitoria|escapejs }}"
+                                 data-descricao="{{ monitoria.descricao_completa|default:monitoria.descricao_resumida|escapejs }}"
+                                 data-imagem="{% if monitoria.img_monitoria %}{{ monitoria.img_monitoria.url }}{% endif %}"
+                                 data-professor="{{ monitoria.professor_responsavel|default:'Não informado' }}"
+                                 data-periodo="{{ monitoria.periodo|default:'2025.1' }}"
+                                 data-vagas="{{ monitoria.vagas_disponiveis|default:'Consultar' }}">
+                                <div class="monitoria-img-wrapper">
+                                    {% if monitoria.img_monitoria %}
+                                    <img src="{{ monitoria.img_monitoria.url }}" class="monitoria-img" alt="{{ monitoria.titulo_monitoria }}" loading="lazy">
+                                    {% else %}
+                                    <img src="{% static 'assets/monitoria-default.jpg' %}" class="monitoria-img" alt="Monitoria" loading="lazy">
+                                    {% endif %}
+                                    <div class="monitoria-badge">
+                                        <i class="bi bi-star-fill me-1"></i>Monitoria
+                                    </div>
+                                </div>
+                                <div class="monitoria-body">
+                                    <h5 class="monitoria-title">{{ monitoria.titulo_monitoria }}</h5>
+                                    <p class="monitoria-description">{{ monitoria.descricao_resumida|truncatechars:80 }}</p>
+                                </div>
+                                <div class="monitoria-footer">
+                                    <small><i class="bi bi-calendar3 me-1"></i> {{ monitoria.periodo|default:"2025.1" }}</small>
+                                    <span class="btn-detail">
+                                        Saiba mais <i class="bi bi-arrow-right-short"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="empty-state">
+                        <i class="bi bi-inbox"></i>
+                        <h5 class="text-muted mb-2">Nenhuma monitoria disponível</h5>
+                        <p class="text-muted small">Não há programas de monitoria cadastrados no momento. Acompanhe nosso site para futuras atualizações.</p>
+                    </div>
+                    {% endif %}
+
+                </div>
+
+                <!-- SIDEBAR (UTILIDADES) -->
+                <div class="col-lg-4">
+                    {% include 'partials/_painel_utilidades.html' %}
+                </div>
+
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- MODAL PARA DETALHES DA MONITORIA -->
+<div class="modal fade" id="monitoriaModal" tabindex="-1" aria-labelledby="monitoriaModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header modal-header-custom">
+                <h5 class="modal-title text-white" id="monitoriaModalLabel">
+                    <i class="bi bi-mortarboard me-2"></i>Detalhes da Monitoria
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="text-center mb-3" id="modal-imagem-container" style="display: none;">
+                    <img id="modal-monitoria-imagem" src="" alt="Imagem da monitoria" class="modal-monitoria-img">
+                </div>
+                <h3 id="modal-monitoria-titulo" class="fw-bold text-primary mb-3 text-center"></h3>
+                <div class="bg-orange mx-auto mb-4" style="width: 50px;"></div>
+                
+                <div class="mb-3">
+                    <label class="fw-bold text-secondary mb-1">
+                        <i class="bi bi-person-badge me-2"></i>Professor Responsável
+                    </label>
+                    <p id="modal-monitoria-professor" class="mb-3 p-2 bg-light rounded"></p>
+                </div>
+
+                <div class="mb-3">
+                    <label class="fw-bold text-secondary mb-1">
+                        <i class="bi bi-calendar-week me-2"></i>Período
+                    </label>
+                    <p id="modal-monitoria-periodo" class="mb-3 p-2 bg-light rounded"></p>
+                </div>
+
+                <div class="mb-3">
+                    <label class="fw-bold text-secondary mb-1">
+                        <i class="bi bi-people me-2"></i>Vagas Disponíveis
+                    </label>
+                    <p id="modal-monitoria-vagas" class="mb-3 p-2 bg-light rounded"></p>
+                </div>
+
+                <div class="mb-3">
+                    <label class="fw-bold text-secondary mb-1">
+                        <i class="bi bi-card-text me-2"></i>Descrição
+                    </label>
+                    <p id="modal-monitoria-descricao" class="mb-3 p-2 bg-light rounded" style="white-space: pre-wrap;"></p>
+                </div>
+            </div>
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary-custom text-white px-4" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle me-2"></i>Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-secondary-custom {
+        background: var(--secondary);
+        border: none;
+        border-radius: 40px;
+        padding: 0.5rem 1.5rem;
+        font-weight: 600;
+        transition: var(--transition);
+    }
+    
+    .btn-secondary-custom:hover {
+        background: var(--secondary-dark);
+        transform: translateY(-2px);
+    }
+</style>
+
+<!-- JavaScript para o modal -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let monitoriaModal = null;
+    const modalElement = document.getElementById('monitoriaModal');
+    
+    if (modalElement) {
+        monitoriaModal = new bootstrap.Modal(modalElement);
+    }
+    
+    // Clique nos cards de monitoria
+    document.querySelectorAll('.monitoria-card').forEach(card => {
+        card.addEventListener('click', function(e) {
+            // Coletar dados dos atributos data-*
+            const titulo = this.getAttribute('data-titulo') || 'Monitoria sem título';
+            const descricao = this.getAttribute('data-descricao') || 'Descrição não disponível.';
+            const imagem = this.getAttribute('data-imagem') || '';
+            const professor = this.getAttribute('data-professor') || 'Não informado';
+            const periodo = this.getAttribute('data-periodo') || '2025.1';
+            const vagas = this.getAttribute('data-vagas') || 'Consultar';
+            
+            // Preencher o modal
+            document.getElementById('modal-monitoria-titulo').textContent = titulo;
+            document.getElementById('modal-monitoria-professor').textContent = professor;
+            document.getElementById('modal-monitoria-periodo').textContent = periodo;
+            document.getElementById('modal-monitoria-vagas').textContent = vagas;
+            
+            // Formatar descrição (preservar quebras de linha)
+            const descricaoFormatada = descricao.replace(/\n/g, '<br>');
+            document.getElementById('modal-monitoria-descricao').innerHTML = descricaoFormatada;
+            
+            // Tratar imagem
+            const imgContainer = document.getElementById('modal-imagem-container');
+            const imgElement = document.getElementById('modal-monitoria-imagem');
+            
+            if (imagem && imagem !== '' && imagem !== 'None') {
+                imgElement.src = imagem;
+                imgContainer.style.display = 'block';
+                imgElement.onerror = function() {
+                    imgContainer.style.display = 'none';
+                };
+            } else {
+                imgContainer.style.display = 'none';
+            }
+            
+            // Mostrar o modal
+            if (monitoriaModal) {
+                monitoriaModal.show();
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

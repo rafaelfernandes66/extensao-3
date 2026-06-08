@@ -1,0 +1,601 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Matriz Curricular | ADS{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/matriz_curricular.css' %}?v=1.2">
+<link rel="stylesheet" href="{% static 'css/documentos.css' %}">
+{% endblock %}
+
+{% block page_header %}
+<section class="bg-title text-white text-center py-5 d-flex align-items-center justify-content-center flex-column">
+    <h1 class="fw-bold fs-0">MATRIZ CURRICULAR</h1>
+    <div class="bg-orange p-1 my-3" style="width: 150px;"></div>
+    <p class="lead text-light">Curso de Análise e Desenvolvimento de Sistemas - Noturno</p>
+</section>
+{% endblock %}
+
+{% block content %}
+<main>
+    <section class="bg-light py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="fw-bold text-primary mb-4">PERÍODOS DO CURSO</h1>
+
+
+                    <div class="mb-4">
+                        <h2 class="fw-bold text-primary mb-2"><i class="fa-regular fa-calendar me-2"></i> 1º PERÍODO
+                        </h2>
+                        <div class="mt-2 p-3 border rounded bg-white periodo-card">
+                            <span class="badge-periodo">Disciplinas do Primeiro Semestre</span>
+                            <div class="row">
+                                <!-- Engenharia de Requisitos -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Engenharia de Requisitos
+                                            </div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Segunda: 17:50 às
+                                                    19:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Segunda: 19:50 às
+                                                    21:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. Angélica</div>
+                                            <div class="text-muted">Sala H11</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Programação Estruturada -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Programação Estruturada
+                                            </div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Terça: 17:50 às
+                                                    19:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Segunda: 19:50 às
+                                                    21:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Sormany / Arthur Oliveira</div>
+                                            <div class="text-muted">Sala H7</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Arquitetura e Organização de Computadores -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Arquitetura e Org.
+                                                Computadores</div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Quinta: 17:50 às
+                                                    19:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Quinta: 19:50 às
+                                                    21:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. Thiago Laurentino</div>
+                                            <div class="text-muted">Sala H12</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Fundamentos Matemáticos e Lógica -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Fund. Matemáticos e Lógica
+                                            </div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Sexta: 17:50 às
+                                                    19:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Sexta: 19:50 às
+                                                    21:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. Jane / Sinthia</div>
+                                            <div class="text-muted">Sala H12</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Inglês Instrumental -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Inglês Instrumental</div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Quinta: 19:50 às
+                                                    21:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Quinta: 17:50 às
+                                                    19:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. Dilma</div>
+                                            <div class="text-muted">Sala H13</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h2 class="fw-bold text-primary mb-2"><i class="fa-regular fa-calendar me-2"></i> 2º PERÍODO
+                        </h2>
+                        <div class="mt-2 p-3 border rounded bg-white periodo-card">
+                            <span class="badge-periodo">Disciplinas do Segundo Semestre</span>
+                            <div class="row">
+                                <!-- Programação OO -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Programação Orientada a
+                                                Objetos</div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Terça: 17:50 às
+                                                    19:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Quinta: 19:50 às
+                                                    21:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. Pablo Roberto / Arthur
+                                                Oliveira</div>
+                                            <div class="text-muted">Sala H8/H7</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Engenharia de Software -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Engenharia de Software</div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Quarta: 19:50 às
+                                                    21:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Quarta: 19:50 às
+                                                    21:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. Keila</div>
+                                            <div class="text-muted">Sala H11</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Fundamentos de Administração e Finanças -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Fund. de Adm. e Finanças
+                                            </div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Segunda: 18:50 às
+                                                    21:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Quinta: 18:50 às
+                                                    21:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. Sinthia</div>
+                                            <div class="text-muted">Sala H12/H14</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Direitos Humanos -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Direitos Humanos</div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Quarta: 17:50 às
+                                                    19:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Quarta: 19:50 às
+                                                    21:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. Flávio / Marheus Victor
+                                            </div>
+                                            <div class="text-muted">Sala H12</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Autoria Web (Eletiva) -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Autoria Web <span
+                                                    class="badge bg-primary text-white ms-2">ELETIVA</span></div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Quinta: 17:50 às
+                                                    19:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Terça: 17:50 às
+                                                    19:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. Arthur Oliveira</div>
+                                            <div class="text-muted">Sala H7/H8</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Extensão I -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Extensão I</div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Segunda: 13:50 às
+                                                    16:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Sexta: 13:50 às
+                                                    15:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Sinthia</div>
+                                            <div class="text-muted">Sala H12</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="mb-4">
+                        <h2 class="fw-bold text-primary mb-2"><i class="fa-regular fa-calendar me-2"></i> 3º PERÍODO
+                        </h2>
+                        <div class="mt-2 p-3 border rounded bg-white periodo-card">
+                            <span class="badge-periodo">Disciplinas do Terceiro Semestre</span>
+                            <div class="row">
+                                <!-- Estruturas de Dados -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Estruturas de Dados</div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Terça: 17:50 às
+                                                    21:50</span>
+
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. José Neto</div>
+                                            <div class="text-muted">Sala H13</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Banco de Dados I -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Banco de Dados I</div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Quinta: 17:50 às
+                                                    21:50</span>
+
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. Keila</div>
+                                            <div class="text-muted">Sala H11</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Desenvolvimento Web I -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Desenvolvimento Web I</div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Sexta: 17:50 às
+                                                    21:50</span>
+
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. José Matheus</div>
+                                            <div class="text-muted">Sala H8</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Laboratório de Redes -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Laboratório de Redes</div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Quarta: 17:50 às
+                                                    21:50</span>
+
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. José Neto</div>
+                                            <div class="text-muted">Sala H8</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Extensão II -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Extensão II</div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Quarta: 13:50 às
+                                                    15:50</span>
+
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. José Neto / Pablo Roberto
+                                            </div>
+                                            <div class="text-muted">Sala H8</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="mb-4">
+                        <h2 class="fw-bold text-primary mb-2"><i class="fa-regular fa-calendar me-2"></i> 4º PERÍODO
+                        </h2>
+                        <div class="mt-2 p-3 border rounded bg-white periodo-card">
+                            <span class="badge-periodo">Disciplinas do Quarto Semestre</span>
+                            <div class="row">
+                                <!-- Métodos Avançados de Programação -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Métodos Avançados de
+                                                Programação</div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Segunda: 17:50 às
+                                                    19:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Segunda: 19:50 às
+                                                    21:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. Patrick</div>
+                                            <div class="text-muted">Sala H9</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Banco de Dados II -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Banco de Dados II</div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Terça: 17:50 às
+                                                    19:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Quinta: 17:50 às
+                                                    19:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. Keila</div>
+                                            <div class="text-muted">Sala H11</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Desenvolvimento Web II -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Desenvolvimento Web II</div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Quarta: 17:50 às
+                                                    20:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Quarta: 17:50 às
+                                                    20:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. José Matheus</div>
+                                            <div class="text-muted">Sala H9</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Design de Iteração e UX -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Design de Iteração e UX
+                                            </div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Segunda: 19:50 às
+                                                    21:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Segunda: 17:50 às
+                                                    19:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. José Neto</div>
+                                            <div class="text-muted">Sala H10</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Desenvolvimento Mobile -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Desenvolvimento Mobile</div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Quinta: 19:50 às
+                                                    21:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Terça: 19:50 às
+                                                    21:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. Allyson</div>
+                                            <div class="text-muted">Sala H8/H12</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Desenvolvimento de Jogos (Eletiva) -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Desenvolvimento de Jogos
+                                                <span class="badge bg-primary text-white ms-2">ELETIVA</span>
+                                            </div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Quinta: 17:50 às
+                                                    19:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Terça: 17:50 às
+                                                    19:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. Allyson</div>
+                                            <div class="text-muted">Sala H12</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Extensão III -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Extensão III</div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Terça: 13:50 às
+                                                    16:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Sexta: 15:50 às
+                                                    16:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. Keila / Pablo Roberto
+                                            </div>
+                                            <div class="text-muted">Sala H11</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="mb-4">
+                        <h2 class="fw-bold text-primary mb-2"><i class="fa-regular fa-calendar me-2"></i> 5º PERÍODO
+                        </h2>
+                        <div class="mt-2 p-3 border rounded bg-white periodo-card">
+                            <span class="badge-periodo">Disciplinas do Quinto Semestre</span>
+                            <div class="row">
+                                <!-- Estágio Supervisionado -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Estágio Supervisionado</div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Segunda: 07:50 às
+                                                    11:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Quarta: 09:50 às
+                                                    11:50</span>
+                                                <span class="badge bg-secondary me-1">Turma A - Sexta: 09:50 às
+                                                    11:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Quarta: 13:50 às
+                                                    17:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. Pablo Roberto</div>
+                                            <div class="text-muted">Sala H10 / Remoto</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Projeto de Engenharia de Software -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Projeto de Eng. Software
+                                            </div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Terça: 14:50 às
+                                                    17:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Terça: 14:50 às
+                                                    17:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. Angélica</div>
+                                            <div class="text-muted">Sala H10</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Projeto UX -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Projeto UX</div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Terça: 17:50 às
+                                                    19:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Terça: 17:50 às
+                                                    19:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. Angélica</div>
+                                            <div class="text-muted">Sala H10</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Direito Digital e Segurança da Informação -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Dir. Dig. Seg. Informação
+                                            </div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Quarta: 17:50 às
+                                                    19:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Quarta: 17:50 às
+                                                    19:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. Marheus Victor</div>
+                                            <div class="text-muted">Sala H10</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Projeto de Banco de Dados -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Projeto de Banco de Dados
+                                            </div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Quinta: 16:50 às
+                                                    18:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Quinta: 16:50 às
+                                                    18:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. Pablo Roberto</div>
+                                            <div class="text-muted">Sala H10</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Qualidade e Testes de Software -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Qualidade e Testes de
+                                                Software</div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Quinta: 18:50 às
+                                                    21:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Quinta: 18:50 às
+                                                    21:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. Pablo Roberto</div>
+                                            <div class="text-muted">Sala H10</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Projeto Web -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Projeto Web</div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Terça: 19:50 às
+                                                    21:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Terça: 19:50 às
+                                                    21:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. José Matheus</div>
+                                            <div class="text-muted">Sala H10</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Empreendedorismo e Inovação -->
+                                <div class="col-md-6 mb-3">
+                                    <div class="card shadow-sm border-0 disciplina-card bg-light">
+                                        <div class="card-body">
+                                            <div class="fw-semibold text-primary fs-5 mb-2">Empreendedorismo e Inovação
+                                            </div>
+                                            <div class="mb-2">
+                                                <span class="badge bg-secondary me-1">Turma A - Quarta: 19:50 às
+                                                    21:50</span>
+                                                <span class="badge bg-secondary me-1">Turma B - Quarta: 19:50 às
+                                                    21:50</span>
+                                            </div>
+                                            <div class="fw-semibold text-secondary mb-1">Prof. Flávio</div>
+                                            <div class="text-muted">Sala H10</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div><!-- Fim Row -->
+        </div><!-- Fim Container -->
+    </section>
+</main>
+{% endblock %}

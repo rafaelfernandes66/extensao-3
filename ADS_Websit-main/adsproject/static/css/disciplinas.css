@@ -1,0 +1,83 @@
+main {
+  color: var(--bs-primary);
+}
+
+main .card.bg-light {
+  background-color: #f0f0f0 !important;
+  border-radius: 5px;
+}
+
+.card.bg-light {
+  background-color: #f0f0f0 !important;
+  border-radius: 5px;
+}
+
+.subject-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Estilos para o modal */
+.professor-modal-img {
+  max-width: 150px;
+  border: 3px solid var(--bs-primary);
+  margin-bottom: 1rem;
+}
+
+#disciplinaModal .modal-content {
+  border-radius: 10px;
+}
+
+#disciplinaModal .modal-header {
+  border-radius: 10px 10px 0 0;
+}
+
+#disciplinaModal .modal-body {
+  padding: 2rem;
+}
+
+#modal-disciplina-nome {
+  border-bottom: 2px solid var(--bs-secondary);
+  padding-bottom: 10px;
+}
+
+/* Estilos para o tema escuro */
+[data-bs-theme="dark"] {
+  --bs-primary: #ffffff;
+
+  body {
+    background-color: #181a1b;
+  }
+  .bg-light {
+    background-color: #1b1e1f !important;
+  }
+
+  .btn-gray {
+    background-color: #222426;
+  }
+
+  .bg-white {
+    background-color: #181a1b !important;
+  }
+  
+  .disciplina-card {
+    background-color: #1e2122;
+    color: white;
+  }
+  
+  .disciplina-card:hover {
+    background-color: #25282a;
+    cursor: pointer;
+  }
+}
+
+/* Efeito hover para os cards */
+.disciplina-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.disciplina-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}

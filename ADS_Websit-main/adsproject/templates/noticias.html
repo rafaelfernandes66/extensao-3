@@ -1,0 +1,503 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Notícias | ADS{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Mantendo consistência absoluta com o estilo das páginas anteriores */
+    :root {
+        --primary: #0d6efd;
+        --primary-dark: #0b5ed7;
+        --secondary: #ff6a00;
+        --secondary-dark: #e05d00;
+        --light-bg: #f8fafc;
+        --card-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
+        --transition: all 0.25s ease;
+    }
+
+    .bg-title {
+        background: linear-gradient(135deg, #0a192f 0%, #0f2b3d 100%);
+        min-height: 40vh;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .bg-title::before {
+        content: '';
+        position: absolute;
+        width: 150%;
+        height: 150%;
+        background: radial-gradient(circle at 20% 40%, rgba(255,106,0,0.12), transparent 70%);
+        top: -20%;
+        left: -20%;
+        pointer-events: none;
+    }
+
+    .bg-orange {
+        background: linear-gradient(90deg, var(--secondary), #ff8c3a);
+        height: 4px;
+        border-radius: 4px;
+        margin: 1rem auto;
+    }
+
+    .bg-light-custom {
+        background-color: var(--light-bg);
+    }
+
+    .polygon-curso {
+        background: linear-gradient(120deg, var(--secondary) 0%, #ff884d 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        font-weight: 800;
+    }
+
+    .section-header {
+        position: relative;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .section-header h2 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .section-header .bg-orange {
+        width: 60px;
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+
+    /* Botão colapsável moderno */
+    .btn-collapse-modern {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        border: none;
+        border-radius: 1rem;
+        padding: 1rem 1.25rem;
+        font-weight: 600;
+        transition: var(--transition);
+        width: 100%;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: white;
+    }
+
+    .btn-collapse-modern:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--card-shadow);
+        color: white;
+    }
+
+    .btn-collapse-modern::after {
+        content: '\F282';
+        font-family: 'bootstrap-icons';
+        font-size: 1.2rem;
+        transition: transform 0.3s;
+    }
+
+    .btn-collapse-modern.collapsed::after {
+        transform: rotate(-90deg);
+    }
+
+    .collapse-content {
+        background: white;
+        border-radius: 1rem;
+        margin-top: 0.75rem;
+        overflow: hidden;
+        box-shadow: var(--card-shadow);
+    }
+
+    /* Estilo dos eventos */
+    .event-item {
+        transition: var(--transition);
+        border-left: 3px solid transparent;
+    }
+
+    .event-item:hover {
+        background-color: rgba(255,106,0,0.05);
+        border-left-color: var(--secondary);
+        transform: translateX(4px);
+    }
+
+    .event-item a {
+        color: var(--primary-dark);
+        font-weight: 500;
+        display: block;
+        padding: 0.875rem 1.25rem;
+        text-decoration: none;
+        transition: var(--transition);
+    }
+
+    .event-item a:hover {
+        color: var(--secondary);
+    }
+
+    .event-item i {
+        color: var(--secondary);
+        width: 24px;
+    }
+
+    /* Cards de notícias modernos */
+    .news-card {
+        background: white;
+        border-radius: 1rem;
+        overflow: hidden;
+        transition: var(--transition);
+        margin-bottom: 1.5rem;
+        box-shadow: var(--card-shadow);
+        display: flex;
+        flex-direction: row;
+        cursor: pointer;
+    }
+
+    .news-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 25px 40px -14px rgba(0, 0, 0, 0.15);
+    }
+
+    .news-content {
+        flex: 1;
+        padding: 1.25rem;
+    }
+
+    .news-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+        line-height: 1.4;
+    }
+
+    .news-title a {
+        color: var(--primary);
+        text-decoration: none;
+        transition: var(--transition);
+    }
+
+    .news-title a:hover {
+        color: var(--secondary);
+    }
+
+    .news-date {
+        font-size: 0.75rem;
+        color: #6c757d;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+
+    .news-date i {
+        color: var(--secondary);
+    }
+
+    .news-date .badge-time {
+        background: rgba(255,106,0,0.1);
+        padding: 0.2rem 0.5rem;
+        border-radius: 20px;
+        font-size: 0.7rem;
+    }
+
+    .news-description {
+        font-size: 0.875rem;
+        color: #495057;
+        line-height: 1.5;
+        margin-bottom: 0;
+    }
+
+    .news-image {
+        width: 130px;
+        flex-shrink: 0;
+        overflow: hidden;
+        background: #f0f0f0;
+    }
+
+    .news-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .news-card:hover .news-image img {
+        transform: scale(1.05);
+    }
+
+    .badge-event-count {
+        background: rgba(255,106,0,0.12);
+        color: var(--secondary-dark);
+        border-radius: 40px;
+        padding: 0.25rem 0.75rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-left: 0.75rem;
+    }
+
+    /* Modal de notícias */
+    .modal-header-custom {
+        background: linear-gradient(135deg, #0a192f 0%, #0f2b3d 100%);
+    }
+
+    .modal-news-img {
+        max-height: 300px;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 0.75rem;
+    }
+
+    @media (max-width: 768px) {
+        .bg-title {
+            min-height: 30vh;
+        }
+        .news-card {
+            flex-direction: column;
+        }
+        .news-image {
+            width: 100%;
+            height: 180px;
+        }
+        .news-image img {
+            width: 100%;
+            height: 100%;
+        }
+        .section-header h2 {
+            font-size: 1.4rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block page_header %}
+<section class="bg-title text-white text-center py-5 d-flex align-items-center justify-content-center flex-column">
+    <div class="container">
+        <h1 class="fw-bold display-4">NOTÍCIAS</h1>
+        <div class="bg-orange mx-auto my-3" style="width: 100px;"></div>
+        <p class="fs-5 text-white-50">Fique por dentro de todas as novidades do curso de ADS</p>
+    </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<main>
+    <section class="bg-light-custom py-5">
+        <div class="container">
+            <div class="row g-4">
+
+                <!-- COLUNA PRINCIPAL -->
+                <div class="col-lg-8">
+                    
+                    <!-- EVENTOS SECTION -->
+                    <div class="section-header">
+                        <h2>
+                            <i class="bi bi-calendar-event" style="color: var(--secondary);"></i>
+                            EVENTOS
+                            {% if eventos %}
+                            <span class="badge-event-count">{{ eventos|length }} programação(ões)</span>
+                            {% endif %}
+                        </h2>
+                        <div class="bg-orange"></div>
+                    </div>
+
+                    <div class="mb-4">
+                        <button class="btn btn-collapse-modern collapsed" data-bs-toggle="collapse" data-bs-target="#documents-events">
+                            <span><i class="bi bi-folder2-open me-2"></i> VER PROGRAMAÇÕES E CALENDÁRIO</span>
+                        </button>
+                        <div id="documents-events" class="collapse">
+                            <div class="collapse-content">
+                                {% if eventos %}
+                                <ul class="list-unstyled mb-0">
+                                    {% for evento in eventos %}
+                                    <li class="event-item">
+                                        <a href="{{ evento.link_evento }}" target="_blank" rel="noopener noreferrer">
+                                            <i class="bi bi-calendar3 me-2"></i>
+                                            {{ evento.nome_evento }}
+                                            {% if evento.data_evento %}
+                                            <small class="text-muted ms-2">
+                                                <i class="bi bi-clock me-1"></i>{{ evento.data_evento|date:"d/m/Y" }}
+                                            </small>
+                                            {% endif %}
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                {% else %}
+                                <div class="text-center py-5">
+                                    <i class="bi bi-calendar-x fs-1 text-muted"></i>
+                                    <p class="text-muted mt-2 mb-0">Nenhum evento programado no momento.</p>
+                                    <p class="text-muted small">Acompanhe nossas redes sociais para atualizações.</p>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NOTÍCIAS SECTION -->
+                    <div class="section-header mt-5">
+                        <h2>
+                            <i class="bi bi-newspaper" style="color: var(--secondary);"></i>
+                            NOTÍCIAS
+                            {% if noticias %}
+                            <span class="badge-event-count">{{ noticias|length }} notícia(s)</span>
+                            {% endif %}
+                        </h2>
+                        <div class="bg-orange"></div>
+                    </div>
+
+                    {% if noticias %}
+                    <div class="news-list">
+                        {% for noticia in noticias %}
+                        <article class="news-card" data-bs-toggle="modal" data-bs-target="#noticiaModal"
+                                 data-id="{{ noticia.id }}"
+                                 data-titulo="{{ noticia.titulo_noticia|escapejs }}"
+                                 data-data="{{ noticia.data_publicacao|date:'d/m/Y H:i' }}"
+                                 data-data-natural="{{ noticia.data_publicacao|naturalday }}"
+                                 data-conteudo="{{ noticia.descricao_noticia|escapejs }}"
+                                 data-imagem="{% if noticia.img_noticia %}{{ noticia.img_noticia.url }}{% endif %}"
+                                 data-resumo="{{ noticia.descricao_resumida|default:noticia.descricao_noticia|truncatechars:150|escapejs }}">
+                            <div class="news-content">
+                                <h3 class="news-title">
+                                    {{ noticia.titulo_noticia }}
+                                </h3>
+                                <div class="news-date">
+                                    <i class="bi bi-clock"></i>
+                                    <span class="badge-time">{{ noticia.data_publicacao|naturalday|capfirst }}</span>
+                                    <span>•</span>
+                                    <i class="bi bi-calendar3"></i>
+                                    <span>{{ noticia.data_publicacao|date:"d/m/Y" }}</span>
+                                </div>
+                                <p class="news-description">
+                                    {{ noticia.descricao_resumida|default:noticia.descricao_noticia|truncatechars:100 }}
+                                </p>
+                            </div>
+                            {% if noticia.img_noticia %}
+                            <div class="news-image">
+                                <img src="{{ noticia.img_noticia.url }}" alt="{{ noticia.titulo_noticia }}" loading="lazy">
+                            </div>
+                            {% endif %}
+                        </article>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="text-center py-5 bg-white rounded-4 shadow-sm">
+                        <i class="bi bi-inbox fs-1 text-muted"></i>
+                        <p class="text-muted mt-3 mb-0">Nenhuma notícia publicada ainda.</p>
+                        <p class="text-muted small">Acompanhe nosso site para as próximas atualizações.</p>
+                    </div>
+                    {% endif %}
+
+                </div>
+
+                <!-- SIDEBAR (UTILIDADES) -->
+                <div class="col-lg-4">
+                    {% include 'partials/_painel_utilidades.html' %}
+                </div>
+
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- MODAL PARA NOTÍCIAS -->
+<div class="modal fade" id="noticiaModal" tabindex="-1" aria-labelledby="noticiaModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header modal-header-custom">
+                <h5 class="modal-title text-white" id="noticiaModalLabel">
+                    <i class="bi bi-newspaper me-2"></i>Detalhes da Notícia
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="text-center mb-3" id="modal-imagem-container" style="display: none;">
+                    <img id="modal-noticia-imagem" src="" alt="Imagem da notícia" class="modal-news-img">
+                </div>
+                <h3 id="modal-noticia-titulo" class="fw-bold text-primary mb-3"></h3>
+                <div class="mb-3">
+                    <span class="badge-event-count" id="modal-noticia-data-badge"></span>
+                </div>
+                <div class="bg-orange my-3" style="width: 50px;"></div>
+                <div id="modal-noticia-conteudo" class="text-muted" style="line-height: 1.6; white-space: pre-wrap;"></div>
+            </div>
+            <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-secondary text-white px-4" data-bs-dismiss="modal" style="background: var(--secondary); border: none; border-radius: 40px;">
+                    <i class="bi bi-x-circle me-2"></i>Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript para o modal -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    let noticiaModal = null;
+    const modalElement = document.getElementById('noticiaModal');
+    
+    if (modalElement) {
+        noticiaModal = new bootstrap.Modal(modalElement);
+    }
+    
+    // Clique nos cards de notícia
+    document.querySelectorAll('.news-card').forEach(card => {
+        card.addEventListener('click', function(e) {
+            // Evitar que o clique no link dentro do card dispare duas vezes
+            if (e.target.tagName === 'A') return;
+            
+            // Coletar dados dos atributos data-*
+            const titulo = this.getAttribute('data-titulo') || 'Sem título';
+            const dataOriginal = this.getAttribute('data-data') || '';
+            const dataNatural = this.getAttribute('data-data-natural') || '';
+            const conteudo = this.getAttribute('data-conteudo') || 'Conteúdo não disponível.';
+            const imagem = this.getAttribute('data-imagem') || '';
+            
+            // Preencher o modal
+            document.getElementById('modal-noticia-titulo').textContent = titulo;
+            
+            // Formatar data
+            const dataBadge = document.getElementById('modal-noticia-data-badge');
+            if (dataNatural) {
+                dataBadge.innerHTML = `<i class="bi bi-calendar me-1"></i>${dataNatural} • ${dataOriginal}`;
+            } else if (dataOriginal) {
+                dataBadge.innerHTML = `<i class="bi bi-calendar me-1"></i>${dataOriginal}`;
+            } else {
+                dataBadge.innerHTML = '<i class="bi bi-calendar me-1"></i>Data não informada';
+            }
+            
+            // Formatar conteúdo (preservar quebras de linha)
+            const conteudoFormatado = conteudo.replace(/\n/g, '<br>');
+            document.getElementById('modal-noticia-conteudo').innerHTML = conteudoFormatado;
+            
+            // Tratar imagem
+            const imgContainer = document.getElementById('modal-imagem-container');
+            const imgElement = document.getElementById('modal-noticia-imagem');
+            
+            if (imagem && imagem !== '' && imagem !== 'None') {
+                imgElement.src = imagem;
+                imgContainer.style.display = 'block';
+                imgElement.onerror = function() {
+                    imgContainer.style.display = 'none';
+                };
+            } else {
+                imgContainer.style.display = 'none';
+            }
+            
+            // Mostrar o modal
+            if (noticiaModal) {
+                noticiaModal.show();
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

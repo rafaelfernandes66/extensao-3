@@ -1,0 +1,443 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br" data-bs-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}ADS | Análise e Desenvolvimento de Sistemas{% endblock %}</title>
+  
+  <!-- Bootstrap 5 + Icons + Fonts -->
+  <link rel="stylesheet" href="{% static 'css/boostrap.min.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    integrity="sha512-XxCtbpMTxXWqE+e6Z9J7dZ+Nk/IVTyYYAvAZ9xrzjIP2gCq5OYMi+65sLsVA1Uq/3FakA0+YSpc8Yjv5Ckh+Q=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <style>
+    /* === MODERN GLOBAL STYLES === */
+    :root {
+      --primary: #0d6efd;
+      --primary-dark: #0b5ed7;
+      --secondary: #ff6a00;
+      --secondary-dark: #e05d00;
+      --light-bg: #f8fafc;
+      --dark-bg: #0a192f;
+      --card-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      scroll-behavior: smooth;
+      background-color: #ffffff;
+      transition: background-color 0.3s ease;
+    }
+
+    /* Dark mode suporte aprimorado */
+    [data-bs-theme="dark"] body {
+      background-color: #121212;
+    }
+
+    /* Navbar modernizada */
+    .navbar {
+      transition: var(--transition);
+    }
+
+    .navbar-brand img.logo {
+      transition: transform 0.2s ease;
+    }
+    .navbar-brand:hover img.logo {
+      transform: scale(1.05);
+    }
+
+    /* Botões com efeito moderno */
+    .btn-gray {
+      background: rgba(0, 0, 0, 0.05);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+    .btn-gray:hover {
+      background: var(--secondary);
+      color: white;
+      transform: translateY(-2px);
+    }
+    [data-bs-theme="dark"] .btn-gray {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+    [data-bs-theme="dark"] .btn-gray:hover {
+      background: var(--secondary);
+    }
+
+    /* Links do menu com underline animado */
+    .navbar-nav .nav-link {
+      position: relative;
+      padding: 8px 0;
+      transition: var(--transition);
+    }
+    .navbar-nav .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--secondary);
+      transition: width 0.3s ease;
+    }
+    .navbar-nav .nav-link:hover::after,
+    .navbar-nav .nav-link.active::after {
+      width: 100%;
+    }
+    .navbar-nav .nav-link:hover {
+      color: var(--secondary) !important;
+      transform: translateY(-1px);
+    }
+
+    /* Cards e elementos modernos */
+    .shadow-sm-custom {
+      box-shadow: var(--card-shadow);
+      transition: var(--transition);
+      border-radius: 1.25rem !important;
+    }
+    .shadow-sm-custom:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 25px 40px -14px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Footer melhorado */
+    footer {
+      background: linear-gradient(135deg, #0a192f 0%, #0f2135 100%);
+      color: #e2e8f0;
+    }
+    [data-bs-theme="dark"] footer {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+    }
+    footer .text-primary {
+      color: #ff8c4a !important;
+    }
+    footer a {
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    footer a:hover {
+      color: var(--secondary);
+      transform: translateX(4px);
+      display: inline-block;
+    }
+
+    /* Listas com ícones animados */
+    .links-list-orange li {
+      transition: var(--transition);
+    }
+    .links-list-orange li:hover {
+      transform: translateX(6px);
+    }
+    .links-list-orange li i {
+      color: var(--secondary);
+      transition: var(--transition);
+    }
+    .links-list-orange li:hover i {
+      transform: translateX(3px);
+    }
+
+    /* Botão de dark mode animado */
+    #themeToggle {
+      transition: var(--transition);
+      overflow: hidden;
+    }
+    #themeToggle:hover {
+      background: var(--secondary);
+      border-color: var(--secondary);
+    }
+    #themeToggle i {
+      transition: transform 0.3s ease;
+    }
+    #themeToggle:hover i {
+      transform: rotate(15deg);
+    }
+
+    /* Scrollbar moderna */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--secondary);
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--secondary-dark);
+    }
+
+    /* Botão flutuante de voltar ao topo */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      background: var(--secondary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+      z-index: 1000;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .back-to-top.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    .back-to-top:hover {
+      background: var(--secondary-dark);
+      transform: translateY(-3px);
+    }
+  </style>
+  
+  {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+  <header>
+    <!-- Navbar principal moderna -->
+    <nav class="navbar m-0 p-0 pb-1 sticky-top" style="background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 1030;">
+      <section class="container-fluid pb-3 pt-3 shadow-sm">
+        <div class="container-fluid d-flex justify-content-between align-items-center w-75">
+          <!-- Logo com animação -->
+          <a class="navbar-brand d-flex align-items-center" href="{% url 'index' %}">
+            <img src="{% static 'assets/logo.png' %}" alt="Logo ADS" class="img-fluid logo" style="height: 45px; width: auto;">
+            <span class="fw-bold ms-2 fs-4" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); background-clip: text; -webkit-background-clip: text; color: transparent;">ADS</span>
+          </a>
+
+          <!-- Redes Sociais com efeitos -->
+          <ul class="navbar-nav flex-row gap-3 d-flex align-items-center d-none d-sm-flex">
+            <li class="nav-item">
+              <a href="https://www.instagram.com/analisedesistemasunifip/" target="_blank" rel="noopener noreferrer"
+                class="btn btn-gray">
+                <i class="bi bi-instagram fs-5"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="https://www.youtube.com/@coordenacaoads-unifip537/" target="_blank" rel="noopener noreferrer"
+                class="btn btn-gray">
+                <i class="bi bi-youtube fs-5"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-gray">
+                <i class="bi bi-linkedin fs-5"></i>
+              </a>
+            </li>
+          </ul>
+
+          <div class="d-flex justify-content-between gap-3">
+            <!-- Dark mode button melhorado -->
+            <button class="btn btn-gray" id="themeToggle">
+              <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+            </button>
+
+            <!-- Sandwich button -->
+            <button class="navbar-toggler btn-gray d-lg-none" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarNavContent" aria-controls="navbarNavContent" aria-expanded="false"
+              aria-label="Alternar navegação">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          </div>
+        </div>
+      </section>
+    </nav>
+
+    <!-- Menu expandível modernizado -->
+    <nav class="navbar navbar-expand-lg bg-light shadow-sm" style="background: rgba(248,250,252,0.95); backdrop-filter: blur(8px);">
+      <section class="container-fluid align-items-center pb-2">
+        <div class="collapse navbar-collapse" id="navbarNavContent">
+          <ul class="navbar-nav m-auto d-flex align-items-center gap-3 fs-6">
+            <li class="nav-item">
+              <a class="nav-link fw-semibold px-3" href="{% url 'index' %}">🏠 Início</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fw-semibold px-3" href="{% url 'disciplinas' %}">📚 Disciplinas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fw-semibold px-3" href="{% url 'extensoes' %}">🌱 Extensões</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fw-semibold px-3" href="{% url 'projetos' %}">🚀 Projetos</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fw-semibold px-3" href="{% url 'noticias' %}">📰 Notícias</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fw-semibold px-3" href="{% url 'documentos' %}">📄 Documentação</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fw-semibold px-3" href="{% url 'monitorias' %}">🎓 Monitorias</a>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </nav>
+  </header>
+
+  {% block page_header %}{% endblock %}
+
+  {% block content %}{% endblock content %}
+
+  <!-- Footer modernizado -->
+  <footer class="py-5 mt-5">
+    <section class="container">
+      <div class="row text-center text-lg-start">
+        <!-- Logo e Redes Sociais -->
+        <div class="col-12 col-lg-4 mb-4">
+          <a class="navbar-brand d-flex align-items-center justify-content-center justify-content-lg-start mb-3"
+            href="{% url 'index' %}">
+            <img src="{% static 'assets/logo.png' %}" alt="Logo ADS" class="img-fluid logo" style="height: 50px;">
+            <span class="fw-bold fs-3 ms-2 text-white">ADS</span>
+          </a>
+          <p class="text-white-50">Formando profissionais inovadores para o mercado de tecnologia desde 2024.</p>
+          <div class="d-flex gap-3 justify-content-center justify-content-lg-start mt-3">
+            <a href="https://www.instagram.com/analisedesistemasunifip/" target="_blank" class="btn btn-gray bg-white bg-opacity-10">
+              <i class="bi bi-instagram fs-5 text-white"></i>
+            </a>
+            <a href="https://www.youtube.com/@coordenacaoads-unifip537/" target="_blank" class="btn btn-gray bg-white bg-opacity-10">
+              <i class="bi bi-youtube fs-5 text-white"></i>
+            </a>
+            <a href="#" target="_blank" class="btn btn-gray bg-white bg-opacity-10">
+              <i class="bi bi-linkedin fs-5 text-white"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Contato -->
+        <div class="col-12 col-lg-3 mb-4">
+          <h4 class="mb-4 fw-bold text-white">📞 Contato</h4>
+          <ul class="list-unstyled d-flex flex-column gap-3 text-white-50">
+            <li><i class="bi bi-telephone-fill me-2 text-warning"></i> (83) 3421-4047</li>
+            <li><i class="bi bi-whatsapp me-2 text-success"></i> (83) 9 9999-9999</li>
+            <li><i class="bi bi-envelope-fill me-2 text-danger"></i> coordenacao@ads.fiponline.edu.br</li>
+            <li><i class="bi bi-geo-alt-fill me-2 text-info"></i> Patos, Paraíba, Brasil - 58704-440</li>
+          </ul>
+        </div>
+
+        <!-- Links rápidos -->
+        <div class="col-12 col-lg-2 mb-4">
+          <h4 class="mb-4 fw-bold text-white">🔗 Links</h4>
+          <ul class="list-unstyled d-flex flex-column gap-2 links-list-orange">
+            <li><i class="bi bi-arrow-right-short me-2"></i><a href="{% url 'index' %}" class="text-white-50">Início</a></li>
+            <li><i class="bi bi-arrow-right-short me-2"></i><a href="{% url 'extensoes' %}" class="text-white-50">Extensões</a></li>
+            <li><i class="bi bi-arrow-right-short me-2"></i><a href="{% url 'projetos' %}" class="text-white-50">Projetos</a></li>
+            <li><i class="bi bi-arrow-right-short me-2"></i><a href="{% url 'documentos' %}" class="text-white-50">Documentação</a></li>
+            <li><i class="bi bi-arrow-right-short me-2"></i><a href="{% url 'disciplinas' %}" class="text-white-50">Disciplinas</a></li>
+            <li><i class="bi bi-arrow-right-short me-2"></i><a href="{% url 'monitorias' %}" class="text-white-50">Monitorias</a></li>
+          </ul>
+        </div>
+
+        <!-- Newsletter -->
+        <div class="col-12 col-lg-3 mb-4">
+          <h4 class="mb-4 fw-bold text-white">📧 Newsletter</h4>
+          <p class="text-white-50">Receba novidades e eventos do curso</p>
+          <form class="d-flex flex-column gap-3" role="search">
+            <input class="form-control rounded-pill" type="email" placeholder="Seu melhor email" aria-label="Email" style="padding: 12px 20px;">
+            <button class="btn rounded-pill px-4 py-2" type="submit" style="background: var(--secondary); color: white; font-weight: 600;">Inscrever-se →</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Créditos com linha elegante -->
+      <div class="border-top border-secondary border-opacity-25 mt-4 pt-4 d-flex flex-column flex-md-row justify-content-between align-items-center text-center">
+        <p class="mb-2 mb-md-0 text-white-50 small">© 2026 ADS - Análise e Desenvolvimento de Sistemas</p>
+        <p class="text-white-50 small">🚀 Criado com dedicação pelos alunos de ADS | Todos os direitos reservados</p>
+      </div>
+    </section>
+  </footer>
+
+  <!-- Botão Voltar ao Topo -->
+  <button class="back-to-top" id="backToTop">
+    <i class="bi bi-arrow-up fs-4"></i>
+  </button>
+
+  <!-- Scripts -->
+  <script src="{% static 'js/bootstrap.blunde.min.js' %}"></script>
+  <script src="{% static 'js/darkMode.js' %}"></script>
+  
+  <script>
+    // Back to Top Button
+    const backToTopBtn = document.getElementById('backToTop');
+    
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopBtn.classList.add('show');
+      } else {
+        backToTopBtn.classList.remove('show');
+      }
+    });
+    
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Dark mode toggle aprimorado com persistência
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const htmlElement = document.documentElement;
+    
+    function setTheme(theme) {
+      htmlElement.setAttribute('data-bs-theme', theme);
+      localStorage.setItem('theme', theme);
+      if (theme === 'dark') {
+        themeIcon.className = 'bi bi-sun-fill';
+      } else {
+        themeIcon.className = 'bi bi-moon-stars-fill';
+      }
+    }
+    
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme);
+    
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = htmlElement.getAttribute('data-bs-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      setTheme(newTheme);
+    });
+
+    // Menu active link highlight
+    const currentPath = window.location.pathname;
+    document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
+      if (link.getAttribute('href') === currentPath || 
+          (currentPath === '/' && link.getAttribute('href') === "{% url 'index' %}")) {
+        link.classList.add('active');
+      }
+    });
+  </script>
+  
+  {% block extra_js %}{% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,326 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Disciplinas | ADS{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Mantendo consistência com o estilo da página inicial */
+    :root {
+        --primary: #0d6efd;
+        --primary-dark: #0b5ed7;
+        --secondary: #ff6a00;
+        --secondary-dark: #e05d00;
+        --light-bg: #f8fafc;
+        --card-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
+        --transition: all 0.25s ease;
+    }
+
+    .bg-title {
+        background: linear-gradient(135deg, #0a192f 0%, #0f2b3d 100%);
+        min-height: 40vh;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .bg-title::before {
+        content: '';
+        position: absolute;
+        width: 150%;
+        height: 150%;
+        background: radial-gradient(circle at 20% 40%, rgba(255,106,0,0.12), transparent 70%);
+        top: -20%;
+        left: -20%;
+        pointer-events: none;
+    }
+
+    .bg-orange {
+        background: linear-gradient(90deg, var(--secondary), #ff8c3a);
+        height: 4px;
+        border-radius: 4px;
+        margin: 1rem auto;
+    }
+
+    .disciplina-card {
+        cursor: pointer;
+        transition: var(--transition);
+        border: 1px solid rgba(0,0,0,0.05);
+        border-radius: 1rem !important;
+    }
+
+    .disciplina-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--card-shadow);
+        border-color: var(--secondary);
+    }
+
+    .subject-img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid var(--secondary);
+    }
+
+    .professor-modal-img {
+        max-width: 150px;
+        border-radius: 50%;
+        border: 3px solid var(--secondary);
+        margin-bottom: 1rem;
+    }
+
+    .btn-secondary-custom {
+        background: var(--secondary);
+        border: none;
+        transition: var(--transition);
+    }
+
+    .btn-secondary-custom:hover {
+        background: var(--secondary-dark);
+        transform: translateY(-2px);
+    }
+
+    .polygon-curso {
+        background: linear-gradient(120deg, var(--secondary) 0%, #ff884d 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        font-weight: 800;
+    }
+
+    .shadow-sm-custom {
+        box-shadow: var(--card-shadow);
+        transition: var(--transition);
+        border-radius: 1rem;
+    }
+
+    .shadow-sm-custom:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 25px 40px -14px rgba(0, 0, 0, 0.12);
+    }
+
+    @media (max-width: 768px) {
+        .bg-title {
+            min-height: 30vh;
+        }
+        .subject-img {
+            width: 45px;
+            height: 45px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block page_header %}
+<section class="bg-title text-white text-center py-5 d-flex align-items-center justify-content-center flex-column">
+    <div class="container">
+        <h1 class="fw-bold display-4">DISCIPLINAS</h1>
+        <div class="bg-orange mx-auto my-3" style="width: 100px;"></div>
+        <p class="fs-5 text-white-50">Conheça a grade curricular do curso de Análise e Desenvolvimento de Sistemas</p>
+    </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<main>
+    <section class="bg-light-custom py-5">
+        <div class="container">
+            <div class="row g-4">
+
+                <!-- COLUNA PRINCIPAL -->
+                <div class="col-lg-8">
+                    <div class="mb-4">
+                        <h1 class="fw-bold text-primary">
+                            Estrutura
+                            <span class="polygon-curso">Curricular</span>
+                        </h1>
+                        <div class="bg-orange my-3" style="width: 60px; margin-left: 0;"></div>
+                    </div>
+
+                    <!-- Loop dinâmico dos períodos -->
+                    {% for periodo in periodos %}
+                    <div class="mb-5">
+                        <div class="d-flex align-items-center gap-3 mb-4">
+                            <div class="bg-secondary rounded-circle p-2" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                                <span class="text-white fw-bold fs-5">{{ periodo }}</span>
+                            </div>
+                            <h3 class="text-primary fw-bold mb-0">{{ periodo }}º Período</h3>
+                        </div>
+                        <div class="row g-3">
+                            {% for disciplina in disciplinas %}
+                            {% if disciplina.periodo == periodo %}
+                            <div class="col-12">
+                                <div class="card shadow-sm border-0 disciplina-card" data-bs-toggle="modal"
+                                    data-bs-target="#disciplinaModal" 
+                                    data-disciplina-nome="{{ disciplina.nome_disciplina|escapejs }}"
+                                    data-professor-nome="{{ disciplina.nome_professor|escapejs }}"
+                                    data-professor-img="{% if disciplina.img_professor %}{{ disciplina.img_professor.url }}{% else %}{% static 'assets/teacher/sem-foto.png' %}{% endif %}"
+                                    data-descricao="{{ disciplina.descricao|default:'Descrição não disponível'|escapejs }}"
+                                    data-carga="{{ disciplina.carga_horaria|default:'Não informada' }}"
+                                    data-periodo="{{ disciplina.periodo }}"
+                                    data-tipo="{{ disciplina.get_tipo_display|default:disciplina.tipo }}"
+                                    data-ementa="{% if disciplina.ementa %}{{ disciplina.ementa.url }}{% endif %}">
+                                    <div class="card-body p-3">
+                                        <div class="row align-items-center">
+                                            <div class="col-auto">
+                                                {% if disciplina.img_professor %}
+                                                <img src="{{ disciplina.img_professor.url }}" alt="{{ disciplina.nome_professor }}"
+                                                    class="subject-img" />
+                                                {% else %}
+                                                <img src="{% static 'assets/teacher/sem-foto.png' %}" alt="Sem foto"
+                                                    class="subject-img" />
+                                                {% endif %}
+                                            </div>
+                                            <div class="col">
+                                                <div class="fw-semibold fs-5">{{ disciplina.nome_disciplina }}</div>
+                                                <small class="text-muted">{{ disciplina.nome_professor }}</small>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="bi bi-chevron-right text-secondary fs-4"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- SIDEBAR (UTILIDADES) -->
+                <div class="col-lg-4">
+                    {% include 'partials/_painel_utilidades.html' %}
+                </div>
+
+            </div><!-- /.row -->
+        </div><!-- /.container -->
+    </section>
+
+    <!-- Modal para detalhes da disciplina - MODERNIZADO -->
+    <div class="modal fade" id="disciplinaModal" tabindex="-1" aria-labelledby="disciplinaModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #0a192f 0%, #0f2b3d 100%);">
+                    <h5 class="modal-title text-white" id="disciplinaModalLabel">
+                        <i class="bi bi-book me-2"></i>Detalhes da Disciplina
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="row g-4">
+                        <div class="col-md-4 text-center">
+                            <img id="modal-professor-img" src="" alt="Professor" class="professor-modal-img">
+                            <h5 id="modal-professor-nome" class="fw-bold text-primary mt-2"></h5>
+                            <span class="badge bg-secondary bg-opacity-10 text-secondary px-3 py-2">Docente</span>
+                        </div>
+                        <div class="col-md-8">
+                            <h4 id="modal-disciplina-nome" class="fw-bold mb-3" style="color: var(--secondary);"></h4>
+                            <div class="bg-orange mb-3" style="width: 50px;"></div>
+                            <p id="modal-disciplina-descricao" class="mb-4 text-muted"></p>
+
+                            <div class="row g-3">
+                                <div class="col-sm-6">
+                                    <div class="d-flex align-items-center gap-2 p-2 bg-light rounded">
+                                        <i class="bi bi-clock-history fs-4 text-secondary"></i>
+                                        <div>
+                                            <small class="text-muted d-block">Carga Horária</small>
+                                            <strong id="modal-disciplina-carga" class="text-dark"></strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="d-flex align-items-center gap-2 p-2 bg-light rounded">
+                                        <i class="bi bi-calendar-week fs-4 text-secondary"></i>
+                                        <div>
+                                            <small class="text-muted d-block">Período</small>
+                                            <strong id="modal-disciplina-periodo" class="text-dark"></strong><span class="text-dark">º Período</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="d-flex align-items-center gap-2 p-2 bg-light rounded">
+                                        <i class="bi bi-tag fs-4 text-secondary"></i>
+                                        <div>
+                                            <small class="text-muted d-block">Tipo</small>
+                                            <strong id="modal-disciplina-tipo" class="text-dark"></strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" id="ementa-container" style="display: none;">
+                                    <div class="d-flex align-items-center gap-2 p-2 bg-light rounded">
+                                        <i class="bi bi-file-pdf fs-4 text-danger"></i>
+                                        <div>
+                                            <small class="text-muted d-block">Ementa</small>
+                                            <a id="modal-disciplina-ementa" href="#" target="_blank" class="text-decoration-none fw-semibold" style="color: var(--secondary);">
+                                                Baixar documento <i class="bi bi-download ms-1"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary-custom text-white px-4" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-2"></i>Fechar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Script para manipular o modal e preencher os dados dinamicamente (substituindo o arquivo disciplinas.js)
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('disciplinaModal');
+        
+        if (modal) {
+            modal.addEventListener('show.bs.modal', function(event) {
+                const button = event.relatedTarget;
+                
+                // Coletar dados do card clicado
+                const disciplinaNome = button.getAttribute('data-disciplina-nome') || '';
+                const professorNome = button.getAttribute('data-professor-nome') || '';
+                const professorImg = button.getAttribute('data-professor-img') || '';
+                const descricao = button.getAttribute('data-descricao') || '';
+                const carga = button.getAttribute('data-carga') || '';
+                const periodo = button.getAttribute('data-periodo') || '';
+                const tipo = button.getAttribute('data-tipo') || '';
+                const ementa = button.getAttribute('data-ementa') || '';
+                
+                // Preencher o modal
+                document.getElementById('modal-disciplina-nome').textContent = disciplinaNome;
+                document.getElementById('modal-professor-nome').textContent = professorNome;
+                document.getElementById('modal-professor-img').src = professorImg;
+                document.getElementById('modal-disciplina-descricao').textContent = descricao;
+                document.getElementById('modal-disciplina-carga').textContent = carga + 'h';
+                document.getElementById('modal-disciplina-periodo').textContent = periodo;
+                document.getElementById('modal-disciplina-tipo').textContent = tipo;
+                
+                // Tratar ementa (se existir)
+                const ementaContainer = document.getElementById('ementa-container');
+                const ementaLink = document.getElementById('modal-disciplina-ementa');
+                
+                if (ementa && ementa !== 'None' && ementa !== '') {
+                    ementaContainer.style.display = 'block';
+                    ementaLink.href = ementa;
+                } else {
+                    ementaContainer.style.display = 'none';
+                }
+                
+                // Fallback para imagem do professor
+                const imgElement = document.getElementById('modal-professor-img');
+                imgElement.onerror = function() {
+                    this.src = "{% static 'assets/teacher/sem-foto.png' %}";
+                };
+            });
+        }
+    });
+</script>
+{% endblock %}

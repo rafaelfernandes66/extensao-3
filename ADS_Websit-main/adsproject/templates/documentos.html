@@ -1,0 +1,412 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Documentos | ADS{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Mantendo consistência absoluta com o estilo das páginas anteriores */
+    :root {
+        --primary: #0d6efd;
+        --primary-dark: #0b5ed7;
+        --secondary: #ff6a00;
+        --secondary-dark: #e05d00;
+        --light-bg: #f8fafc;
+        --card-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
+        --transition: all 0.25s ease;
+    }
+
+    .bg-title {
+        background: linear-gradient(135deg, #0a192f 0%, #0f2b3d 100%);
+        min-height: 40vh;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .bg-title::before {
+        content: '';
+        position: absolute;
+        width: 150%;
+        height: 150%;
+        background: radial-gradient(circle at 20% 40%, rgba(255,106,0,0.12), transparent 70%);
+        top: -20%;
+        left: -20%;
+        pointer-events: none;
+    }
+
+    .bg-orange {
+        background: linear-gradient(90deg, var(--secondary), #ff8c3a);
+        height: 4px;
+        border-radius: 4px;
+        margin: 1rem auto;
+    }
+
+    .bg-light-custom {
+        background-color: var(--light-bg);
+    }
+
+    .polygon-curso {
+        background: linear-gradient(120deg, var(--secondary) 0%, #ff884d 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        font-weight: 800;
+    }
+
+    .section-header {
+        position: relative;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .section-header h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary);
+    }
+
+    .section-header .bg-orange {
+        width: 60px;
+        margin-left: 0;
+        margin-top: 0.5rem;
+    }
+
+    /* Botões colapsáveis modernos */
+    .btn-collapse-modern {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        border: none;
+        border-radius: 1rem;
+        padding: 1rem 1.25rem;
+        font-weight: 600;
+        transition: var(--transition);
+        width: 100%;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: white;
+        margin-bottom: 0.5rem;
+    }
+
+    .btn-collapse-modern:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--card-shadow);
+        color: white;
+    }
+
+    .btn-collapse-modern::after {
+        content: '\F282';
+        font-family: 'bootstrap-icons';
+        font-size: 1.2rem;
+        transition: transform 0.3s;
+    }
+
+    .btn-collapse-modern.collapsed::after {
+        transform: rotate(-90deg);
+    }
+
+    /* Container de conteúdo colapsável */
+    .collapse-content {
+        background: white;
+        border-radius: 1rem;
+        margin-top: 0.75rem;
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+        box-shadow: var(--card-shadow);
+    }
+
+    /* Estilo dos itens de documento */
+    .document-item {
+        transition: var(--transition);
+        border-left: 3px solid transparent;
+    }
+
+    .document-item:hover {
+        background-color: rgba(255,106,0,0.05);
+        border-left-color: var(--secondary);
+        transform: translateX(4px);
+    }
+
+    .document-item a {
+        color: var(--primary-dark);
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        padding: 0.875rem 1.25rem;
+        text-decoration: none;
+        transition: var(--transition);
+        gap: 0.75rem;
+    }
+
+    .document-item a:hover {
+        color: var(--secondary);
+    }
+
+    .document-item i {
+        color: var(--secondary);
+        font-size: 1.1rem;
+        width: 24px;
+    }
+
+    .document-item .file-name {
+        flex: 1;
+    }
+
+    .document-item .file-size {
+        font-size: 0.7rem;
+        color: #6c757d;
+        background: #f0f0f0;
+        padding: 0.2rem 0.5rem;
+        border-radius: 20px;
+    }
+
+    /* Badge de contagem */
+    .badge-doc-count {
+        background: rgba(255,106,0,0.12);
+        color: var(--secondary-dark);
+        border-radius: 40px;
+        padding: 0.25rem 0.75rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-left: 0.75rem;
+    }
+
+    /* Categoria ícone */
+    .category-icon {
+        width: 40px;
+        height: 40px;
+        background: rgba(255,106,0,0.1);
+        border-radius: 12px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 0.75rem;
+    }
+
+    .category-icon i {
+        font-size: 1.25rem;
+        color: var(--secondary);
+    }
+
+    @media (max-width: 768px) {
+        .bg-title {
+            min-height: 30vh;
+        }
+        .document-item a {
+            flex-wrap: wrap;
+        }
+        .document-item .file-size {
+            margin-left: 2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block page_header %}
+<section class="bg-title text-white text-center py-5 d-flex align-items-center justify-content-center flex-column">
+    <div class="container">
+        <h1 class="fw-bold display-4">DOCUMENTOS</h1>
+        <div class="bg-orange mx-auto my-3" style="width: 100px;"></div>
+        <p class="fs-5 text-white-50">Documentos institucionais para matrícula, requerimentos e programas acadêmicos</p>
+    </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<main>
+    <section class="bg-light-custom py-5">
+        <div class="container">
+            <div class="row g-4">
+
+                <!-- COLUNA PRINCIPAL -->
+                <div class="col-lg-8">
+                    
+                    <div class="section-header">
+                        <h1>
+                            <span class="polygon-curso">Documentos</span> Importantes
+                        </h1>
+                        <div class="bg-orange"></div>
+                        <p class="text-secondary mt-3">Acesse abaixo todos os formulários, guias e documentos necessários para sua vida acadêmica.</p>
+                    </div>
+
+                    <!-- DOCUMENTOS DE MATRÍCULA -->
+                    <div class="mb-3">
+                        <button class="btn btn-collapse-modern" data-bs-toggle="collapse" data-bs-target="#documents-matricula">
+                            <span>
+                                <span class="category-icon">
+                                    <i class="bi bi-file-text"></i>
+                                </span>
+                                DOCUMENTOS DE MATRÍCULA
+                                {% if arquivos %}
+                                <span class="badge-doc-count">{{ arquivos|length }} arquivo(s)</span>
+                                {% endif %}
+                            </span>
+                        </button>
+                        <div id="documents-matricula" class="collapse show">
+                            <div class="collapse-content">
+                                {% if arquivos %}
+                                <ul class="list-unstyled mb-0">
+                                    {% for doc in arquivos %}
+                                    <li class="document-item">
+                                        <a href="{{ doc.arquivo.url }}" target="_blank" rel="noopener noreferrer">
+                                            <i class="bi bi-file-earmark-pdf"></i>
+                                            <span class="file-name">{{ doc.nome_arquivo }}</span>
+                                            {% if doc.arquivo.size %}
+                                            <span class="file-size">{{ doc.arquivo.size|filesizeformat }}</span>
+                                            {% endif %}
+                                            <i class="bi bi-box-arrow-up-right ms-2 opacity-50"></i>
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                {% else %}
+                                <div class="text-center py-4">
+                                    <i class="bi bi-folder2-open fs-1 text-muted"></i>
+                                    <p class="text-muted mt-2 mb-0">Nenhum documento encontrado nesta categoria.</p>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DOCUMENTOS FIES -->
+                    <div class="mb-3">
+                        <button class="btn btn-collapse-modern collapsed" data-bs-toggle="collapse" data-bs-target="#documents-fies">
+                            <span>
+                                <span class="category-icon">
+                                    <i class="bi bi-bank2"></i>
+                                </span>
+                                DOCUMENTOS FIES
+                                {% if fies %}
+                                <span class="badge-doc-count">{{ fies|length }} arquivo(s)</span>
+                                {% endif %}
+                            </span>
+                        </button>
+                        <div id="documents-fies" class="collapse">
+                            <div class="collapse-content">
+                                {% if fies %}
+                                <ul class="list-unstyled mb-0">
+                                    {% for doc in fies %}
+                                    <li class="document-item">
+                                        <a href="{{ doc.arquivo.url }}" target="_blank" rel="noopener noreferrer">
+                                            <i class="bi bi-file-earmark-pdf"></i>
+                                            <span class="file-name">{{ doc.nome_arquivo }}</span>
+                                            {% if doc.arquivo.size %}
+                                            <span class="file-size">{{ doc.arquivo.size|filesizeformat }}</span>
+                                            {% endif %}
+                                            <i class="bi bi-box-arrow-up-right ms-2 opacity-50"></i>
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                {% else %}
+                                <div class="text-center py-4">
+                                    <i class="bi bi-folder2-open fs-1 text-muted"></i>
+                                    <p class="text-muted mt-2 mb-0">Nenhum documento do FIES encontrado.</p>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- REQUERIMENTOS -->
+                    <div class="mb-3">
+                        <button class="btn btn-collapse-modern collapsed" data-bs-toggle="collapse" data-bs-target="#documents-requerimentos">
+                            <span>
+                                <span class="category-icon">
+                                    <i class="bi bi-pencil-square"></i>
+                                </span>
+                                REQUERIMENTOS
+                                {% if requerimentos %}
+                                <span class="badge-doc-count">{{ requerimentos|length }} arquivo(s)</span>
+                                {% endif %}
+                            </span>
+                        </button>
+                        <div id="documents-requerimentos" class="collapse">
+                            <div class="collapse-content">
+                                {% if requerimentos %}
+                                <ul class="list-unstyled mb-0">
+                                    {% for doc in requerimentos %}
+                                    <li class="document-item">
+                                        <a href="{{ doc.arquivo.url }}" target="_blank" rel="noopener noreferrer">
+                                            <i class="bi bi-file-earmark-pdf"></i>
+                                            <span class="file-name">{{ doc.nome_arquivo }}</span>
+                                            {% if doc.arquivo.size %}
+                                            <span class="file-size">{{ doc.arquivo.size|filesizeformat }}</span>
+                                            {% endif %}
+                                            <i class="bi bi-box-arrow-up-right ms-2 opacity-50"></i>
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                {% else %}
+                                <div class="text-center py-4">
+                                    <i class="bi bi-folder2-open fs-1 text-muted"></i>
+                                    <p class="text-muted mt-2 mb-0">Nenhum requerimento encontrado.</p>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DOCUMENTOS PROUNI -->
+                    <div class="mb-3">
+                        <button class="btn btn-collapse-modern collapsed" data-bs-toggle="collapse" data-bs-target="#documents-prouni">
+                            <span>
+                                <span class="category-icon">
+                                    <i class="bi bi-trophy"></i>
+                                </span>
+                                DOCUMENTOS PROUNI
+                                {% if prouni %}
+                                <span class="badge-doc-count">{{ prouni|length }} arquivo(s)</span>
+                                {% endif %}
+                            </span>
+                        </button>
+                        <div id="documents-prouni" class="collapse">
+                            <div class="collapse-content">
+                                {% if prouni %}
+                                <ul class="list-unstyled mb-0">
+                                    {% for doc in prouni %}
+                                    <li class="document-item">
+                                        <a href="{{ doc.arquivo.url }}" target="_blank" rel="noopener noreferrer">
+                                            <i class="bi bi-file-earmark-pdf"></i>
+                                            <span class="file-name">{{ doc.nome_arquivo }}</span>
+                                            {% if doc.arquivo.size %}
+                                            <span class="file-size">{{ doc.arquivo.size|filesizeformat }}</span>
+                                            {% endif %}
+                                            <i class="bi bi-box-arrow-up-right ms-2 opacity-50"></i>
+                                        </a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                {% else %}
+                                <div class="text-center py-4">
+                                    <i class="bi bi-folder2-open fs-1 text-muted"></i>
+                                    <p class="text-muted mt-2 mb-0">Nenhum documento do Prouni encontrado.</p>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DICA EXTRA -->
+                    <div class="alert alert-info mt-4 d-flex align-items-center gap-3 border-0 rounded-4 shadow-sm" style="background: rgba(13,110,253,0.05);">
+                        <i class="bi bi-info-circle-fill fs-2" style="color: var(--secondary);"></i>
+                        <div>
+                            <strong class="text-primary">Precisa de ajuda?</strong>
+                            <p class="mb-0 text-muted small">Entre em contato com a coordenação do curso ou com o setor de documentação acadêmica para mais informações.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- SIDEBAR (UTILIDADES) -->
+                <div class="col-lg-4">
+                    {% include 'partials/_painel_utilidades.html' %}
+                </div>
+
+            </div><!-- Fim Row -->
+        </div><!-- Fim Container -->
+    </section>
+</main>
+{% endblock %}
